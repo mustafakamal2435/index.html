@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perhitungan MAUT</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4faff;
+      color: #00334e;
+      margin: 0;
+      padding: 30px;
+    }
+    h1 {
+      color: #005f99;
+      border-bottom: 3px solid #0077b6;
+      padding-bottom: 10px;
+    }
+    form {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 500px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #0077b6;
+      border-radius: 8px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 15px;
+      background-color: #0077b6;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005f8d;
+    }
+  </style>
+</head>
+<body>
+  <h1>Perhitungan Metode MAUT</h1>
+  <p>Masukkan nilai kriteria untuk setiap alternatif bibit udang:</p>
+
+  <form id="mautForm">
+    <label>Warna Tubuh (1-5):</label>
+    <input type="number" id="warna" min="1" max="5" required>
+
+    <label>Pergerakan Aktif (1-5):</label>
+    <input type="number" id="gerak" min="1" max="5" required>
+
+    <label>Bentuk Tubuh Normal (1-5):</label>
+    <input type="number" id="bentuk" min="1" max="5" required>
+
+    <label>Mata Cerah (1-5):</label>
+    <input type="number" id="mata" min="1" max="5" required>
+
+    <button type="button" onclick="hitungMAUT()">Hitung Nilai Akhir</button>
+  </form>
+
+  <h2 id="hasil"></h2>
+
+  <p><a href="index.html">⬅ Kembali ke Halaman Utama</a></p>
+
+  <script>
+    function hitungMAUT() {
+      const warna = parseFloat(document.getElementById('warna').value);
+      const gerak = parseFloat(document.getElementById('gerak').value);
+      const bentuk = parseFloat(document.getElementById('bentuk').value);
+      const mata = parseFloat(document.getElementById('mata').value);
+
+      // Bobot (misalnya total 1.0)
+      const bobot = {
+        warna: 0.25,
+        gerak: 0.25,
+        bentuk: 0.25,
+        mata: 0.25
+      };
+
+      const hasil =
+        warna * bobot.warna +
+        gerak * bobot.gerak +
+        bentuk * bobot.bentuk +
+        mata * bobot.mata;
+
+      document.getElementById('hasil').innerText =
+        "Nilai Akhir MAUT: " + hasil.toFixed(2);
+    }
+  </script>
+</body>
+</html>
