@@ -3,99 +3,176 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perhitungan MAUT</title>
+  <title>Perhitungan MAUT - SPK Bibit Udang</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: "Segoe UI", sans-serif;
       background-color: #f4faff;
       color: #00334e;
       margin: 0;
       padding: 30px;
     }
+
     h1 {
       color: #005f99;
       border-bottom: 3px solid #0077b6;
       padding-bottom: 10px;
     }
-    form {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 500px;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-    input {
+
+    table {
       width: 100%;
-      padding: 8px;
-      border: 1px solid #0077b6;
-      border-radius: 8px;
-      margin-top: 5px;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
     }
+
+    th, td {
+      border: 1px solid #0077b6;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #0077b6;
+      color: white;
+    }
+
+    input {
+      width: 60px;
+      text-align: center;
+      padding: 5px;
+      border-radius: 6px;
+      border: 1px solid #0077b6;
+    }
+
     button {
-      margin-top: 15px;
+      margin-top: 20px;
       background-color: #0077b6;
       color: white;
       border: none;
       padding: 10px 15px;
       border-radius: 8px;
       cursor: pointer;
+      font-size: 16px;
     }
+
     button:hover {
       background-color: #005f8d;
+    }
+
+    #hasil {
+      margin-top: 30px;
+      font-size: 18px;
+      background-color: #e3f4ff;
+      padding: 15px;
+      border-left: 5px solid #0077b6;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 25px;
+      color: #0077b6;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <h1>Perhitungan Metode MAUT</h1>
-  <p>Masukkan nilai kriteria untuk setiap alternatif bibit udang:</p>
+  <p>Masukkan nilai kriteria untuk setiap alternatif bibit udang (skala 1–5):</p>
 
-  <form id="mautForm">
-    <label>Warna Tubuh (1-5):</label>
-    <input type="number" id="warna" min="1" max="5" required>
+  <table id="tabelNilai">
+    <tr>
+      <th>Alternatif</th>
+      <th>Warna Tubuh</th>
+      <th>Pergerakan Aktif</th>
+      <th>Bentuk Tubuh</th>
+      <th>Mata Cerah</th>
+    </tr>
+    <tr>
+      <td>A1</td>
+      <td><input type="number" min="1" max="5" value="4"></td>
+      <td><input type="number" min="1" max="5" value="5"></td>
+      <td><input type="number" min="1" max="5" value="4"></td>
+      <td><input type="number" min="1" max="5" value="5"></td>
+    </tr>
+    <tr>
+      <td>A2</td>
+      <td><input type="number" min="1" max="5" value="3"></td>
+      <td><input type="number" min="1" max="5" value="3"></td>
+      <td><input type="number" min="1" max="5" value="4"></td>
+      <td><input type="number" min="1" max="5" value="4"></td>
+    </tr>
+    <tr>
+      <td>A3</td>
+      <td><input type="number" min="1" max="5" value="5"></td>
+      <td><input type="number" min="1" max="5" value="4"></td>
+      <td><input type="number" min="1" max="5" value="5"></td>
+      <td><input type="number" min="1" max="5" value="5"></td>
+    </tr>
+  </table>
 
-    <label>Pergerakan Aktif (1-5):</label>
-    <input type="number" id="gerak" min="1" max="5" required>
+  <p><b>Bobot Kriteria:</b></p>
+  <ul>
+    <li>Warna Tubuh = 0.25</li>
+    <li>Pergerakan Aktif = 0.25</li>
+    <li>Bentuk Tubuh = 0.25</li>
+    <li>Mata Cerah = 0.25</li>
+  </ul>
 
-    <label>Bentuk Tubuh Normal (1-5):</label>
-    <input type="number" id="bentuk" min="1" max="5" required>
+  <button onclick="hitungMAUT()">Hitung Nilai Akhir</button>
 
-    <label>Mata Cerah (1-5):</label>
-    <input type="number" id="mata" min="1" max="5" required>
+  <div id="hasil"></div>
 
-    <button type="button" onclick="hitungMAUT()">Hitung Nilai Akhir</button>
-  </form>
-
-  <h2 id="hasil"></h2>
-
-  <p><a href="index.html">⬅ Kembali ke Halaman Utama</a></p>
+  <a href="index.html">⬅ Kembali ke Halaman Utama</a>
 
   <script>
     function hitungMAUT() {
-      const warna = parseFloat(document.getElementById('warna').value);
-      const gerak = parseFloat(document.getElementById('gerak').value);
-      const bentuk = parseFloat(document.getElementById('bentuk').value);
-      const mata = parseFloat(document.getElementById('mata').value);
+      const bobot = [0.25, 0.25, 0.25, 0.25];
+      const tabel = document.getElementById("tabelNilai");
+      const baris = tabel.getElementsByTagName("tr");
 
-      // Bobot (misalnya total 1.0)
-      const bobot = {
-        warna: 0.25,
-        gerak: 0.25,
-        bentuk: 0.25,
-        mata: 0.25
-      };
+      let data = [];
+      for (let i = 1; i < baris.length; i++) {
+        const sel = baris[i].getElementsByTagName("input");
+        const nilai = Array.from(sel).map((inp) => parseFloat(inp.value));
+        data.push(nilai);
+      }
 
-      const hasil =
-        warna * bobot.warna +
-        gerak * bobot.gerak +
-        bentuk * bobot.bentuk +
-        mata * bobot.mata;
+      // Normalisasi data
+      const max = [0, 0, 0, 0];
+      for (let j = 0; j < 4; j++) {
+        max[j] = Math.max(...data.map((r) => r[j]));
+      }
 
-      document.getElementById('hasil').innerText =
-        "Nilai Akhir MAUT: " + hasil.toFixed(2);
+      const normal = data.map((r) => r.map((v, j) => v / max[j]));
+
+      // Hitung nilai akhir MAUT
+      const hasilAkhir = normal.map((r) =>
+        r.reduce((acc, v, j) => acc + v * bobot[j], 0)
+      );
+
+      // Tentukan alternatif terbaik
+      const terbaikIndex = hasilAkhir.indexOf(Math.max(...hasilAkhir));
+
+      // Tampilkan hasil
+      let output = "<h3>Hasil Perhitungan MAUT</h3>";
+      output += "<table><tr><th>Alternatif</th><th>Nilai Akhir</th></tr>";
+      hasilAkhir.forEach((v, i) => {
+        output += `<tr><td>A${i + 1}</td><td>${v.toFixed(3)}</td></tr>`;
+      });
+      output += "</table>";
+
+      output += `<p><b>Alternatif terbaik:</b> A${terbaikIndex + 1} (Nilai: ${hasilAkhir[terbaikIndex].toFixed(3)}) ✅</p>`;
+
+      document.getElementById("hasil").innerHTML = output;
     }
   </script>
 </body>
