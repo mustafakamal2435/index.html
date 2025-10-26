@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Daftar Akun Petambak</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Admin - Akun Petambak</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -32,7 +32,7 @@
       background-color: white;
       padding: 30px;
       border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     }
 
     table {
@@ -86,7 +86,6 @@
       align-items: center;
       margin-bottom: 20px;
     }
-
   </style>
 </head>
 <body>
@@ -111,59 +110,66 @@
           <th>Aksi</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Budi Santoso</td>
-          <td>budi</td>
-          <td>budi123</td>
-          <td><button class="btn" onclick="hapusAkun(this)">Hapus</button></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Siti Rahma</td>
-          <td>siti</td>
-          <td>siti123</td>
-          <td><button class="btn" onclick="hapusAkun(this)">Hapus</button></td>
-        </tr>
-      </tbody>
+      <tbody></tbody>
     </table>
   </main>
 
   <script>
-    // Fungsi menambah akun baru
+    // Ambil data dari localStorage
+    let daftarPetambak = JSON.parse(localStorage.getItem("daftarPetambak")) || [];
+
+    // Tampilkan data di tabel
+    function renderTabel() {
+      const tbody = document.querySelector("#tabelAkun tbody");
+      tbody.innerHTML = "";
+      daftarPetambak.forEach((p, i) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${p.nama}</td>
+          <td>${p.username}</td>
+          <td>${p.password}</td>
+          <td><button class="btn" onclick="hapusAkun(${i})">Hapus</button></td>
+        `;
+        tbody.appendChild(row);
+      });
+      localStorage.setItem("daftarPetambak", JSON.stringify(daftarPetambak));
+    }
+
+    // Tambah akun baru
     function tambahAkun() {
       const nama = prompt("Masukkan nama petambak:");
-      const user = prompt("Masukkan username:");
-      const pass = prompt("Masukkan password:");
-      if (nama && user && pass) {
-        const tabel = document.getElementById("tabelAkun").getElementsByTagName("tbody")[0];
-        const barisBaru = tabel.insertRow();
-        const nomor = tabel.rows.length;
+      const username = prompt("Masukkan username:");
+      const password = prompt("Masukkan password:");
 
-        barisBaru.innerHTML = `
-          <td>${nomor}</td>
-          <td>${nama}</td>
-          <td>${user}</td>
-          <td>${pass}</td>
-          <td><button class="btn" onclick="hapusAkun(this)">Hapus</button></td>
-        `;
+      if (!nama || !username || !password) {
+        alert("Semua field harus diisi!");
+        return;
       }
+
+      daftarPetambak.push({ nama, username, password });
+      localStorage.setItem("daftarPetambak", JSON.stringify(daftarPetambak));
+      renderTabel();
+      alert("Akun petambak berhasil ditambahkan!");
     }
 
-    // Fungsi menghapus akun
-    function hapusAkun(btn) {
-      const baris = btn.parentNode.parentNode;
+    // Hapus akun
+    function hapusAkun(index) {
       if (confirm("Yakin ingin menghapus akun ini?")) {
-        baris.remove();
+        daftarPetambak.splice(index, 1);
+        localStorage.setItem("daftarPetambak", JSON.stringify(daftarPetambak));
+        renderTabel();
       }
     }
 
-    // Fungsi logout
+    // Logout
     function logout() {
       alert("Anda telah keluar dari akun admin.");
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     }
+
+    // Tampilkan data awal
+    renderTabel();
   </script>
 </body>
 </html>
