@@ -1,113 +1,113 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - SPK Bibit Udang</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Pengguna - SPK Bibit Udang Vaname</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #0077b6, #00b4d8);
+      color: #333;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       height: 100vh;
       margin: 0;
     }
-    .login-box {
-      background-color: white;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-      width: 320px;
+    .login-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      width: 300px;
       text-align: center;
     }
     h2 {
       color: #0077b6;
-      margin-bottom: 20px;
     }
     input {
       width: 90%;
       padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
+      margin: 8px 0;
       border: 1px solid #ccc;
-    }
-    select {
-      width: 95%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+      border-radius: 6px;
     }
     button {
+      width: 95%;
       background-color: #0096c7;
       color: white;
+      padding: 10px;
       border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 16px;
-      transition: background 0.3s;
-      width: 100%;
+      margin-top: 10px;
     }
     button:hover {
       background-color: #023e8a;
     }
-    p {
-      color: red;
+    .link {
+      display: block;
+      margin-top: 10px;
+      color: #0077b6;
+      text-decoration: none;
       font-size: 14px;
-      display: none;
+    }
+    .link:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="login-box">
-    <h2>Login</h2>
-    <select id="role">
-      <option value="user">Login Pengguna</option>
-      <option value="admin">Login Admin</option>
-    </select>
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
+  <div class="login-container">
+    <h2>Login Pengguna</h2>
+    <input type="text" id="username" placeholder="Username"><br>
+    <input type="password" id="password" placeholder="Password"><br>
     <button onclick="login()">Masuk</button>
-    <p id="error">Username atau password salah!</p>
+    <a href="#" class="link" onclick="lupaPassword()">Lupa Password?</a>
   </div>
 
   <script>
+    // Contoh data pengguna tersimpan di localStorage
+    let pengguna = JSON.parse(localStorage.getItem("daftarPetambak")) || [
+      { nama: "Budi Santoso", username: "budi", password: "budi123", email: "budi@gmail.com" },
+      { nama: "Siti Aminah", username: "siti", password: "siti456", email: "siti@gmail.com" }
+    ];
+    localStorage.setItem("daftarPetambak", JSON.stringify(pengguna));
+
     function login() {
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const role = document.getElementById("role").value;
-      const errorMsg = document.getElementById("error");
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
 
-      // --- LOGIN ADMIN ---
-      if (role === "admin") {
-        if (username === "admin" && password === "admin123") {
-          alert("Login admin berhasil!");
-          window.location.href = "admin.html";
-          return;
-        }
+      const akun = pengguna.find(u => u.username === username && u.password === password);
+      if (akun) {
+        alert("Login berhasil! Selamat datang, " + akun.nama);
+        window.location.href = "hitung.html"; // arahkan ke halaman perhitungan
+      } else {
+        alert("Username atau password salah!");
+      }
+    }
+
+    function lupaPassword() {
+      const email = prompt("Masukkan alamat email Anda untuk reset password:");
+      if (!email) return;
+
+      const akun = pengguna.find(u => u.email === email);
+      if (!akun) {
+        alert("Email tidak ditemukan dalam sistem!");
+        return;
       }
 
-      // --- LOGIN PENGGUNA ---
-      if (role === "user") {
-        // Ambil data pengguna dari localStorage (yang disimpan oleh admin.html)
-        const users = JSON.parse(localStorage.getItem("daftarPetambak")) || [];
-
-        const found = users.find(
-          (u) => u.username === username && u.password === password
-        );
-
-        if (found) {
-          alert("Login pengguna berhasil!");
-          window.location.href = "hitung.html";
-          return;
-        }
+      const passwordBaru = prompt("Masukkan password baru Anda:");
+      if (!passwordBaru) {
+        alert("Password baru tidak boleh kosong!");
+        return;
       }
 
-      // Kalau tidak cocok
-      errorMsg.style.display = "block";
+      akun.password = passwordBaru;
+      localStorage.setItem("daftarPetambak", JSON.stringify(pengguna));
+
+      alert("Password berhasil direset! Silakan login dengan password baru.");
     }
   </script>
 </body>
