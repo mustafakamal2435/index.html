@@ -3,26 +3,128 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Admin</title>
+  <title>Dashboard Admin - Sistem MAUT</title>
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
-      background-color: #f2f9ff;
+      background-color: #e8f4ff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #0077b6;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    main {
       padding: 20px;
     }
-    h1 {
-      color: #0077b6;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    a {
-      color: #0077b6;
-      text-decoration: none;
-      font-weight: bold;
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #0077b6;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    button {
+      background-color: #0077b6;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005f8d;
+    }
+    .logout {
+      background-color: #d9534f;
+      float: right;
+      margin-top: -45px;
+      margin-right: 20px;
+    }
+    .logout:hover {
+      background-color: #c9302c;
     }
   </style>
 </head>
 <body>
-  <h1>Selamat Datang, Admin!</h1>
-  <p>Ini adalah halaman khusus admin. Di sini nanti bisa ditambahkan data kriteria, alternatif, dan hasil penilaian.</p>
-  <a href="index.html">⬅ Kembali ke Halaman Utama</a>
+  <header>
+    <h1>Dashboard Admin - Sistem MAUT Bibit Udang Vaname</h1>
+    <button class="logout" onclick="logout()">Keluar</button>
+  </header>
+
+  <main>
+    <h2>Daftar Akun Petambak</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama Pengguna</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="userTable">
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    // Tampilkan data petambak
+    function loadUsers() {
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const table = document.getElementById('userTable');
+      table.innerHTML = '';
+
+      if (users.length === 0) {
+        table.innerHTML = '<tr><td colspan="3" style="text-align:center;">Belum ada akun petambak</td></tr>';
+        return;
+      }
+
+      users.forEach((u, i) => {
+        const row = `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${u.username}</td>
+            <td>
+              <button onclick="hapusUser('${u.username}')">Hapus</button>
+            </td>
+          </tr>
+        `;
+        table.innerHTML += row;
+      });
+    }
+
+    // Hapus akun petambak
+    function hapusUser(username) {
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      users = users.filter(u => u.username !== username);
+      localStorage.setItem('users', JSON.stringify(users));
+      alert(`Akun "${username}" telah dihapus`);
+      loadUsers();
+    }
+
+    // Logout admin
+    function logout() {
+      window.location.href = "login.html";
+    }
+
+    // Panggil saat halaman dimuat
+    loadUsers();
+  </script>
 </body>
 </html>
