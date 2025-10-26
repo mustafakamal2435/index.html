@@ -20,7 +20,7 @@
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      width: 300px;
+      width: 320px;
       text-align: center;
     }
     h2 {
@@ -65,29 +65,32 @@
     <input type="password" id="password" placeholder="Password"><br>
     <button onclick="login()">Masuk</button>
     <a href="#" class="link" onclick="lupaPassword()">Lupa Password?</a>
+    <a href="#" class="link" onclick="daftar()">Daftar Akun Baru</a>
   </div>
 
   <script>
-    // Contoh data pengguna tersimpan di localStorage
+    // Ambil data pengguna dari localStorage atau isi default
     let pengguna = JSON.parse(localStorage.getItem("daftarPetambak")) || [
       { nama: "Budi Santoso", username: "budi", password: "budi123", email: "budi@gmail.com" },
       { nama: "Siti Aminah", username: "siti", password: "siti456", email: "siti@gmail.com" }
     ];
     localStorage.setItem("daftarPetambak", JSON.stringify(pengguna));
 
+    // Fungsi login
     function login() {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
 
       const akun = pengguna.find(u => u.username === username && u.password === password);
       if (akun) {
         alert("Login berhasil! Selamat datang, " + akun.nama);
-        window.location.href = "hitung.html"; // arahkan ke halaman perhitungan
+        window.location.href = "hitung.html";
       } else {
         alert("Username atau password salah!");
       }
     }
 
+    // Fungsi lupa password
     function lupaPassword() {
       const email = prompt("Masukkan alamat email Anda untuk reset password:");
       if (!email) return;
@@ -108,6 +111,34 @@
       localStorage.setItem("daftarPetambak", JSON.stringify(pengguna));
 
       alert("Password berhasil direset! Silakan login dengan password baru.");
+    }
+
+    // Fungsi daftar akun baru
+    function daftar() {
+      const nama = prompt("Masukkan nama lengkap Anda:");
+      if (!nama) return;
+
+      const username = prompt("Masukkan username baru:");
+      if (!username) return;
+
+      const password = prompt("Masukkan password:");
+      if (!password) return;
+
+      const email = prompt("Masukkan alamat email:");
+      if (!email) return;
+
+      // Cek apakah username sudah ada
+      const ada = pengguna.find(u => u.username === username);
+      if (ada) {
+        alert("Username sudah digunakan! Silakan pilih username lain.");
+        return;
+      }
+
+      // Simpan ke localStorage
+      pengguna.push({ nama, username, password, email });
+      localStorage.setItem("daftarPetambak", JSON.stringify(pengguna));
+
+      alert("Akun berhasil dibuat! Silakan login menggunakan username baru Anda.");
     }
   </script>
 </body>
