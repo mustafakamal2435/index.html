@@ -86,7 +86,7 @@
   <main>
     <h2 style="text-align:center;">Login</h2>
 
-    <form action="dashboard.html" method="post">
+    <form id="loginForm">
       <label for="username">Username</label>
       <input type="text" id="username" name="username" placeholder="Masukkan username" required>
 
@@ -104,5 +104,36 @@
 
     <p>Gunakan akun yang telah terdaftar untuk masuk ke sistem.</p>
   </main>
+
+  <script>
+    // Login sederhana tanpa database
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const role = document.getElementById("role").value;
+
+      // Login untuk ADMIN
+      if (role === "admin") {
+        if (username === "admin" && password === "admin123") {
+          alert("Login Admin berhasil!");
+          window.location.href = "admin.html"; // ke halaman daftar akun petambak
+        } else {
+          alert("Username atau password admin salah!");
+        }
+      }
+
+      // Login untuk PENGGUNA
+      else if (role === "pengguna") {
+        if (username === "user" && password === "user123") {
+          alert("Login Pengguna berhasil!");
+          window.location.href = "hitung.html"; // ke halaman penilaian MAUT
+        } else {
+          alert("Username atau password pengguna salah!");
+        }
+      }
+    });
+  </script>
 </body>
 </html>
