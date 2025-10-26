@@ -3,38 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Implementasi Metode MAUT</title>
+  <title>Login Sistem MAUT - Bibit Udang Vaname</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f6f9fc;
-      text-align: center;
       margin: 0;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+
     header {
       background: linear-gradient(135deg, #0077b6, #00b4d8);
       color: white;
+      text-align: center;
+      width: 100%;
       padding: 40px 20px;
       border-bottom-left-radius: 30px;
       border-bottom-right-radius: 30px;
     }
+
     h1 {
       margin-bottom: 10px;
     }
+
     main {
-      margin-top: 50px;
+      margin-top: 60px;
+      background-color: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 350px;
+      text-align: left;
     }
-    p {
-      font-size: 16px;
-      color: #333;
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
     }
-    .button-container {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
+
     .btn {
       background-color: #0096c7;
       color: white;
@@ -43,11 +61,19 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 16px;
-      text-decoration: none;
+      margin-top: 20px;
+      width: 100%;
       transition: background 0.3s;
     }
+
     .btn:hover {
       background-color: #023e8a;
+    }
+
+    p {
+      text-align: center;
+      margin-top: 20px;
+      color: #333;
     }
   </style>
 </head>
@@ -58,13 +84,25 @@
   </header>
 
   <main>
-    <h2>Selamat Datang!</h2>
-    <p>Website ini membantu petambak dalam menentukan bibit udang vaname terbaik menggunakan metode MAUT.</p>
+    <h2 style="text-align:center;">Login</h2>
 
-    <div class="button-container">
-      <a href="login.html" class="btn">Login Pengguna</a>
-      <a href="admin.html" class="btn">Login Admin</a>
-    </div>
+    <form action="dashboard.html" method="post">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="Masukkan username" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+
+      <label for="role">Login sebagai</label>
+      <select id="role" name="role">
+        <option value="admin">Admin</option>
+        <option value="pengguna">Pengguna</option>
+      </select>
+
+      <button type="submit" class="btn">Masuk</button>
+    </form>
+
+    <p>Gunakan akun yang telah terdaftar untuk masuk ke sistem.</p>
   </main>
 </body>
 </html>
