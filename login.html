@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Petambak & Admin</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - SPK Bibit Udang</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0077b6, #90e0ef);
-      height: 100vh;
+      background: linear-gradient(135deg, #0077b6, #00b4d8);
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100vh;
       margin: 0;
     }
-    .login-container {
-      background: white;
-      padding: 30px;
+    .login-box {
+      background-color: white;
+      padding: 40px;
       border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
       width: 320px;
       text-align: center;
     }
@@ -30,57 +30,84 @@
       width: 90%;
       padding: 10px;
       margin: 10px 0;
-      border: 1px solid #ccc;
       border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    select {
+      width: 95%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
     button {
-      width: 95%;
-      background-color: #0077b6;
+      background-color: #0096c7;
       color: white;
-      padding: 10px;
       border: none;
+      padding: 10px 20px;
       border-radius: 8px;
       cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+      width: 100%;
     }
     button:hover {
       background-color: #023e8a;
     }
-    .error {
+    p {
       color: red;
       font-size: 14px;
-      margin-top: 10px;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>Login Sistem Pemilihan Bibit Udang</h2>
-    <input type="text" id="username" placeholder="Masukkan username" required>
-    <input type="password" id="password" placeholder="Masukkan password" required>
+  <div class="login-box">
+    <h2>Login</h2>
+    <select id="role">
+      <option value="user">Login Pengguna</option>
+      <option value="admin">Login Admin</option>
+    </select>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
     <button onclick="login()">Masuk</button>
-    <p class="error" id="error"></p>
+    <p id="error">Username atau password salah!</p>
   </div>
 
   <script>
     function login() {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const role = document.getElementById("role").value;
+      const errorMsg = document.getElementById("error");
 
-      // akun contoh
-      const admin = { user: "admin", pass: "admin123" };
-      const petambak = { user: "petambak", pass: "petambak123" };
-
-      if (username === admin.user && password === admin.pass) {
-        alert("Login berhasil sebagai Admin!");
-        window.location.href = "admin.html";
-      } 
-      else if (username === petambak.user && password === petambak.pass) {
-        alert("Login berhasil sebagai Petambak!");
-        window.location.href = "hitung.html";
-      } 
-      else {
-        document.getElementById("error").innerText = "Username atau password salah!";
+      // --- LOGIN ADMIN ---
+      if (role === "admin") {
+        if (username === "admin" && password === "admin123") {
+          alert("Login admin berhasil!");
+          window.location.href = "admin.html";
+          return;
+        }
       }
+
+      // --- LOGIN PENGGUNA ---
+      if (role === "user") {
+        // Ambil data pengguna dari localStorage (yang disimpan oleh admin.html)
+        const users = JSON.parse(localStorage.getItem("daftarPetambak")) || [];
+
+        const found = users.find(
+          (u) => u.username === username && u.password === password
+        );
+
+        if (found) {
+          alert("Login pengguna berhasil!");
+          window.location.href = "hitung.html";
+          return;
+        }
+      }
+
+      // Kalau tidak cocok
+      errorMsg.style.display = "block";
     }
   </script>
 </body>
