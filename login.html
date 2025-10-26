@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Petambak & Admin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0077b6, #90e0ef);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+    .login-container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      width: 320px;
+      text-align: center;
+    }
+    h2 {
+      color: #0077b6;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      width: 95%;
+      background-color: #0077b6;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #023e8a;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login Sistem Pemilihan Bibit Udang</h2>
+    <input type="text" id="username" placeholder="Masukkan username" required>
+    <input type="password" id="password" placeholder="Masukkan password" required>
+    <button onclick="login()">Masuk</button>
+    <p class="error" id="error"></p>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // akun contoh
+      const admin = { user: "admin", pass: "admin123" };
+      const petambak = { user: "petambak", pass: "petambak123" };
+
+      if (username === admin.user && password === admin.pass) {
+        alert("Login berhasil sebagai Admin!");
+        window.location.href = "admin.html";
+      } 
+      else if (username === petambak.user && password === petambak.pass) {
+        alert("Login berhasil sebagai Petambak!");
+        window.location.href = "hitung.html";
+      } 
+      else {
+        document.getElementById("error").innerText = "Username atau password salah!";
+      }
+    }
+  </script>
+</body>
+</html>
