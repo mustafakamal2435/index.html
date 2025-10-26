@@ -3,128 +3,167 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Admin - Sistem MAUT</title>
+  <title>Admin - Daftar Akun Petambak</title>
   <style>
     body {
-      font-family: "Segoe UI", sans-serif;
-      background-color: #e8f4ff;
+      font-family: Arial, sans-serif;
+      background-color: #f1f5f9;
       margin: 0;
       padding: 0;
     }
+
     header {
-      background-color: #0077b6;
+      background: linear-gradient(135deg, #0077b6, #00b4d8);
       color: white;
-      padding: 15px;
       text-align: center;
+      padding: 30px;
+      border-bottom-left-radius: 30px;
+      border-bottom-right-radius: 30px;
     }
+
+    h1 {
+      margin: 0;
+    }
+
     main {
-      padding: 20px;
+      margin: 40px auto;
+      width: 90%;
+      max-width: 900px;
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      background-color: white;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 20px;
     }
+
     th, td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
     }
+
     th {
-      background-color: #0077b6;
+      background-color: #00b4d8;
       color: white;
     }
-    tr:hover {
-      background-color: #f1f1f1;
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
     }
-    button {
-      background-color: #0077b6;
+
+    .btn {
+      background-color: #0096c7;
       color: white;
       border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
+      padding: 10px 20px;
+      border-radius: 8px;
       cursor: pointer;
+      font-size: 14px;
+      margin-top: 15px;
+      transition: background 0.3s;
     }
-    button:hover {
-      background-color: #005f8d;
+
+    .btn:hover {
+      background-color: #023e8a;
     }
+
     .logout {
-      background-color: #d9534f;
-      float: right;
-      margin-top: -45px;
-      margin-right: 20px;
+      background-color: #e63946;
     }
+
     .logout:hover {
-      background-color: #c9302c;
+      background-color: #b02a37;
     }
+
+    .top-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
   </style>
 </head>
 <body>
   <header>
-    <h1>Dashboard Admin - Sistem MAUT Bibit Udang Vaname</h1>
-    <button class="logout" onclick="logout()">Keluar</button>
+    <h1>Panel Admin</h1>
+    <h3>Daftar Akun Petambak</h3>
   </header>
 
   <main>
-    <h2>Daftar Akun Petambak</h2>
-    <table>
+    <div class="top-buttons">
+      <button class="btn" onclick="tambahAkun()">+ Tambah Akun Baru</button>
+      <button class="btn logout" onclick="logout()">Keluar</button>
+    </div>
+
+    <table id="tabelAkun">
       <thead>
         <tr>
           <th>No</th>
-          <th>Nama Pengguna</th>
+          <th>Nama Petambak</th>
+          <th>Username</th>
+          <th>Password</th>
           <th>Aksi</th>
         </tr>
       </thead>
-      <tbody id="userTable">
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Budi Santoso</td>
+          <td>budi</td>
+          <td>budi123</td>
+          <td><button class="btn" onclick="hapusAkun(this)">Hapus</button></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Siti Rahma</td>
+          <td>siti</td>
+          <td>siti123</td>
+          <td><button class="btn" onclick="hapusAkun(this)">Hapus</button></td>
+        </tr>
       </tbody>
     </table>
   </main>
 
   <script>
-    // Tampilkan data petambak
-    function loadUsers() {
-      const users = JSON.parse(localStorage.getItem('users')) || [];
-      const table = document.getElementById('userTable');
-      table.innerHTML = '';
+    // Fungsi menambah akun baru
+    function tambahAkun() {
+      const nama = prompt("Masukkan nama petambak:");
+      const user = prompt("Masukkan username:");
+      const pass = prompt("Masukkan password:");
+      if (nama && user && pass) {
+        const tabel = document.getElementById("tabelAkun").getElementsByTagName("tbody")[0];
+        const barisBaru = tabel.insertRow();
+        const nomor = tabel.rows.length;
 
-      if (users.length === 0) {
-        table.innerHTML = '<tr><td colspan="3" style="text-align:center;">Belum ada akun petambak</td></tr>';
-        return;
-      }
-
-      users.forEach((u, i) => {
-        const row = `
-          <tr>
-            <td>${i + 1}</td>
-            <td>${u.username}</td>
-            <td>
-              <button onclick="hapusUser('${u.username}')">Hapus</button>
-            </td>
-          </tr>
+        barisBaru.innerHTML = `
+          <td>${nomor}</td>
+          <td>${nama}</td>
+          <td>${user}</td>
+          <td>${pass}</td>
+          <td><button class="btn" onclick="hapusAkun(this)">Hapus</button></td>
         `;
-        table.innerHTML += row;
-      });
+      }
     }
 
-    // Hapus akun petambak
-    function hapusUser(username) {
-      let users = JSON.parse(localStorage.getItem('users')) || [];
-      users = users.filter(u => u.username !== username);
-      localStorage.setItem('users', JSON.stringify(users));
-      alert(`Akun "${username}" telah dihapus`);
-      loadUsers();
+    // Fungsi menghapus akun
+    function hapusAkun(btn) {
+      const baris = btn.parentNode.parentNode;
+      if (confirm("Yakin ingin menghapus akun ini?")) {
+        baris.remove();
+      }
     }
 
-    // Logout admin
+    // Fungsi logout
     function logout() {
-      window.location.href = "login.html";
+      alert("Anda telah keluar dari akun admin.");
+      window.location.href = "index.html";
     }
-
-    // Panggil saat halaman dimuat
-    loadUsers();
   </script>
 </body>
 </html>
