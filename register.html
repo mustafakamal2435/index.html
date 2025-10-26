@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Akun Petambak</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #00b4d8, #90e0ef);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+    .register-container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      width: 320px;
+      text-align: center;
+    }
+    h2 {
+      color: #0077b6;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      width: 95%;
+      background-color: #0077b6;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #023e8a;
+    }
+    .back {
+      margin-top: 10px;
+      display: block;
+      text-decoration: none;
+      color: #0077b6;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>Daftar Akun Petambak</h2>
+    <input type="text" id="username" placeholder="Masukkan username" required>
+    <input type="password" id="password" placeholder="Masukkan password" required>
+    <button onclick="register()">Daftar</button>
+    <a href="login.html" class="back">Sudah punya akun? Login di sini</a>
+  </div>
+
+  <script>
+    function register() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (username === "" || password === "") {
+        alert("Username dan password wajib diisi!");
+        return;
+      }
+
+      // simpan ke localStorage
+      const akunBaru = { user: username, pass: password };
+      localStorage.setItem("petambakAkun", JSON.stringify(akunBaru));
+
+      alert("Pendaftaran berhasil! Silakan login.");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
