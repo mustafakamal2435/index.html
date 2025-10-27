@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hasil Perhitungan MAUT</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hasil Perhitungan MAUT - Bibit Udang Vaname</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
@@ -20,17 +20,21 @@
       border-bottom-left-radius: 25px;
       border-bottom-right-radius: 25px;
     }
-    h1 {
-      margin: 0;
-    }
     main {
       padding: 30px;
       text-align: center;
     }
+    h1, h2 {
+      color: #023e8a;
+    }
     table {
-      width: 80%;
+      width: 90%;
       margin: 20px auto;
       border-collapse: collapse;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
     }
     th, td {
       border: 1px solid #ddd;
@@ -41,9 +45,12 @@
       background-color: #0096c7;
       color: white;
     }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
     .chart-container {
-      width: 80%;
-      margin: 30px auto;
+      width: 85%;
+      margin: 40px auto;
     }
     button {
       background-color: #0096c7;
@@ -53,6 +60,7 @@
       border-radius: 8px;
       cursor: pointer;
       margin-top: 20px;
+      font-size: 16px;
     }
     button:hover {
       background-color: #023e8a;
@@ -61,21 +69,47 @@
 </head>
 <body>
   <header>
-    <h1>Hasil Perhitungan MAUT</h1>
-    <p>Sistem Pendukung Keputusan Penentuan Bibit Udang Vaname Unggul</p>
+    <h1>Hasil Perhitungan Metode MAUT</h1>
+    <p>Sistem Pendukung Keputusan Pemilihan Bibit Udang Vaname Unggul</p>
   </header>
 
   <main>
-    <h2>Tabel Nilai Akhir</h2>
+    <h2>Tabel Nilai Akhir Alternatif</h2>
     <table>
       <thead>
         <tr>
-          <th>Alternatif</th>
-          <th>Nilai Akhir</th>
           <th>Peringkat</th>
+          <th>Alternatif</th>
+          <th>Nilai Akhir (MAUT)</th>
+          <th>Keterangan</th>
         </tr>
       </thead>
-      <tbody id="hasilTable"></tbody>
+      <tbody>
+        <tr>
+          <td>1 🥇</td>
+          <td>Bibit Udang Vaname SPF Global Gen</td>
+          <td>1.000</td>
+          <td>Bibit terbaik dan paling unggul</td>
+        </tr>
+        <tr>
+          <td>2 🥈</td>
+          <td>Bibit Udang Vannamei F1 WAS</td>
+          <td>0.925</td>
+          <td>Kualitas tinggi</td>
+        </tr>
+        <tr>
+          <td>3 🥉</td>
+          <td>Bibit dari PT. Bibit Unggul</td>
+          <td>0.892</td>
+          <td>Kualitas baik</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Bibit Udang Vannamei F1 PAL</td>
+          <td>0.891</td>
+          <td>Cukup baik</td>
+        </tr>
+      </tbody>
     </table>
 
     <div class="chart-container">
@@ -86,40 +120,20 @@
   </main>
 
   <script>
-    // Contoh data hasil (bisa disesuaikan dengan hasil MAUT sebenarnya)
-    const hasil = [
-      { alternatif: "Bibit Udang Vannamei F1 WAS", nilai: 0.87 },
-      { alternatif: "Bibit Udang Vannamei F1 PAL", nilai: 0.72 },
-      { alternatif: "Bibit  Udang dari PT.Bibit Unggul", nilai: 0.65 },
-      { alternatif: "Bibit Udang Vaname SPF Global Gen", nilai: 0.55 }
-    ];
-
-    // Urutkan dari terbesar ke kecil
-    hasil.sort((a, b) => b.nilai - a.nilai);
-
-    // Tampilkan tabel
-    const tableBody = document.getElementById("hasilTable");
-    hasil.forEach((item, index) => {
-      const row = `<tr>
-        <td>${item.alternatif}</td>
-        <td>${item.nilai.toFixed(2)}</td>
-        <td>${index + 1}</td>
-      </tr>`;
-      tableBody.innerHTML += row;
-    });
-
-    // Tampilkan diagram
     const ctx = document.getElementById("hasilChart").getContext("2d");
     new Chart(ctx, {
       type: "bar",
       data: {
-        labels: hasil.map(item => item.alternatif),
+        labels: [
+          "SPF Global Gen",
+          "F1 WAS",
+          "PT. Bibit Unggul",
+          "F1 PAL"
+        ],
         datasets: [{
-          label: "Nilai Akhir",
-          data: hasil.map(item => item.nilai),
-          backgroundColor: [
-            "#0077b6", "#00b4d8", "#48cae4", "#90e0ef"
-          ],
+          label: "Nilai Akhir MAUT",
+          data: [1.00, 0.925, 0.892, 0.891],
+          backgroundColor: ["#0077b6", "#00b4d8", "#48cae4", "#90e0ef"],
           borderRadius: 10
         }]
       },
@@ -131,15 +145,13 @@
           }
         },
         plugins: {
-          legend: {
-            display: false
-          },
           title: {
             display: true,
-            text: "Perbandingan Nilai Akhir Setiap Bibit Udang",
-            font: {
-              size: 16
-            }
+            text: "Perbandingan Nilai Akhir Bibit Udang Vaname",
+            font: { size: 16 }
+          },
+          legend: {
+            display: false
           }
         }
       }
