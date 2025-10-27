@@ -1,179 +1,149 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perhitungan MAUT - SPK Bibit Udang</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hasil Perhitungan MAUT</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
-      font-family: "Segoe UI", sans-serif;
-      background-color: #f4faff;
-      color: #00334e;
+      font-family: Arial, sans-serif;
+      background-color: #f6f9fc;
       margin: 0;
-      padding: 30px;
+      padding: 0;
     }
-
+    header {
+      background: linear-gradient(135deg, #0077b6, #00b4d8);
+      color: white;
+      padding: 25px;
+      text-align: center;
+      border-bottom-left-radius: 25px;
+      border-bottom-right-radius: 25px;
+    }
     h1 {
-      color: #005f99;
-      border-bottom: 3px solid #0077b6;
-      padding-bottom: 10px;
+      margin: 0;
     }
-
+    main {
+      padding: 30px;
+      text-align: center;
+    }
     table {
-      width: 100%;
+      width: 80%;
+      margin: 20px auto;
       border-collapse: collapse;
-      margin-top: 20px;
-      background: white;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      overflow: hidden;
     }
-
     th, td {
-      border: 1px solid #0077b6;
+      border: 1px solid #ddd;
       padding: 10px;
       text-align: center;
     }
-
     th {
-      background-color: #0077b6;
+      background-color: #0096c7;
       color: white;
     }
-
-    input {
-      width: 60px;
-      text-align: center;
-      padding: 5px;
-      border-radius: 6px;
-      border: 1px solid #0077b6;
+    .chart-container {
+      width: 80%;
+      margin: 30px auto;
     }
-
     button {
-      margin-top: 20px;
-      background-color: #0077b6;
+      background-color: #0096c7;
       color: white;
       border: none;
-      padding: 10px 15px;
+      padding: 10px 20px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
+      margin-top: 20px;
     }
-
     button:hover {
-      background-color: #005f8d;
-    }
-
-    #hasil {
-      margin-top: 30px;
-      font-size: 18px;
-      background-color: #e3f4ff;
-      padding: 15px;
-      border-left: 5px solid #0077b6;
-    }
-
-    a {
-      display: inline-block;
-      margin-top: 25px;
-      color: #0077b6;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    a:hover {
-      text-decoration: underline;
+      background-color: #023e8a;
     }
   </style>
 </head>
 <body>
-  <h1>Perhitungan Metode MAUT</h1>
-  <p>Masukkan nilai kriteria untuk setiap alternatif bibit udang (skala 1–5):</p>
+  <header>
+    <h1>Hasil Perhitungan MAUT</h1>
+    <p>Sistem Pendukung Keputusan Penentuan Bibit Udang Vaname Unggul</p>
+  </header>
 
-  <table id="tabelNilai">
-    <tr>
-      <th>Alternatif</th>
-      <th>Warna Tubuh</th>
-      <th>Pergerakan Aktif</th>
-      <th>Bentuk Tubuh</th>
-      <th>Mata Cerah</th>
-    </tr>
-    <tr>
-      <td>A1</td>
-      <td><input type="number" min="1" max="5" value="4"></td>
-      <td><input type="number" min="1" max="5" value="5"></td>
-      <td><input type="number" min="1" max="5" value="4"></td>
-      <td><input type="number" min="1" max="5" value="5"></td>
-    </tr>
-    <tr>
-      <td>A2</td>
-      <td><input type="number" min="1" max="5" value="3"></td>
-      <td><input type="number" min="1" max="5" value="3"></td>
-      <td><input type="number" min="1" max="5" value="4"></td>
-      <td><input type="number" min="1" max="5" value="4"></td>
-    </tr>
-    <tr>
-      <td>A3</td>
-      <td><input type="number" min="1" max="5" value="5"></td>
-      <td><input type="number" min="1" max="5" value="4"></td>
-      <td><input type="number" min="1" max="5" value="5"></td>
-      <td><input type="number" min="1" max="5" value="5"></td>
-    </tr>
-  </table>
+  <main>
+    <h2>Tabel Nilai Akhir</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Alternatif</th>
+          <th>Nilai Akhir</th>
+          <th>Peringkat</th>
+        </tr>
+      </thead>
+      <tbody id="hasilTable"></tbody>
+    </table>
 
-  <p><b>Bobot Kriteria:</b></p>
-  <ul>
-    <li>Warna Tubuh = 0.25</li>
-    <li>Pergerakan Aktif = 0.25</li>
-    <li>Bentuk Tubuh = 0.25</li>
-    <li>Mata Cerah = 0.25</li>
-  </ul>
+    <div class="chart-container">
+      <canvas id="hasilChart"></canvas>
+    </div>
 
-  <button onclick="hitungMAUT()">Hitung Nilai Akhir</button>
-
-  <div id="hasil"></div>
-
-  <a href="index.html">⬅ Kembali ke Halaman Utama</a>
+    <button onclick="window.location.href='index.html'">Kembali ke Halaman Utama</button>
+  </main>
 
   <script>
-    function hitungMAUT() {
-      const bobot = [0.25, 0.25, 0.25, 0.25];
-      const tabel = document.getElementById("tabelNilai");
-      const baris = tabel.getElementsByTagName("tr");
+    // Contoh data hasil (bisa disesuaikan dengan hasil MAUT sebenarnya)
+    const hasil = [
+      { alternatif: "Bibit A", nilai: 0.87 },
+      { alternatif: "Bibit B", nilai: 0.72 },
+      { alternatif: "Bibit C", nilai: 0.65 },
+      { alternatif: "Bibit D", nilai: 0.55 }
+    ];
 
-      let data = [];
-      for (let i = 1; i < baris.length; i++) {
-        const sel = baris[i].getElementsByTagName("input");
-        const nilai = Array.from(sel).map((inp) => parseFloat(inp.value));
-        data.push(nilai);
+    // Urutkan dari terbesar ke kecil
+    hasil.sort((a, b) => b.nilai - a.nilai);
+
+    // Tampilkan tabel
+    const tableBody = document.getElementById("hasilTable");
+    hasil.forEach((item, index) => {
+      const row = `<tr>
+        <td>${item.alternatif}</td>
+        <td>${item.nilai.toFixed(2)}</td>
+        <td>${index + 1}</td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+
+    // Tampilkan diagram
+    const ctx = document.getElementById("hasilChart").getContext("2d");
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: hasil.map(item => item.alternatif),
+        datasets: [{
+          label: "Nilai Akhir",
+          data: hasil.map(item => item.nilai),
+          backgroundColor: [
+            "#0077b6", "#00b4d8", "#48cae4", "#90e0ef"
+          ],
+          borderRadius: 10
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 1
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          title: {
+            display: true,
+            text: "Perbandingan Nilai Akhir Setiap Bibit Udang",
+            font: {
+              size: 16
+            }
+          }
+        }
       }
-
-      // Normalisasi data
-      const max = [0, 0, 0, 0];
-      for (let j = 0; j < 4; j++) {
-        max[j] = Math.max(...data.map((r) => r[j]));
-      }
-
-      const normal = data.map((r) => r.map((v, j) => v / max[j]));
-
-      // Hitung nilai akhir MAUT
-      const hasilAkhir = normal.map((r) =>
-        r.reduce((acc, v, j) => acc + v * bobot[j], 0)
-      );
-
-      // Tentukan alternatif terbaik
-      const terbaikIndex = hasilAkhir.indexOf(Math.max(...hasilAkhir));
-
-      // Tampilkan hasil
-      let output = "<h3>Hasil Perhitungan MAUT</h3>";
-      output += "<table><tr><th>Alternatif</th><th>Nilai Akhir</th></tr>";
-      hasilAkhir.forEach((v, i) => {
-        output += `<tr><td>A${i + 1}</td><td>${v.toFixed(3)}</td></tr>`;
-      });
-      output += "</table>";
-
-      output += `<p><b>Alternatif terbaik:</b> A${terbaikIndex + 1} (Nilai: ${hasilAkhir[terbaikIndex].toFixed(3)}) ✅</p>`;
-
-      document.getElementById("hasil").innerHTML = output;
-    }
+    });
   </script>
 </body>
 </html>
