@@ -1,161 +1,434 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hasil Perhitungan MAUT - Bibit Udang Vaname</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hitung MAUT Interaktif - Pilih Kriteria & Bobot</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f6f9fc;
-      margin: 0;
-      padding: 0;
+    :root{
+      --blue:#0077b6;
+      --light:#eaf6fb;
+      --accent:#00b4d8;
     }
-    header {
-      background: linear-gradient(135deg, #0077b6, #00b4d8);
-      color: white;
-      padding: 25px;
-      text-align: center;
-      border-bottom-left-radius: 25px;
-      border-bottom-right-radius: 25px;
+    body{
+      font-family: Inter, system-ui, Arial, sans-serif;
+      margin:0;
+      background: linear-gradient(180deg,#f6fbfe,#eef9ff);
+      color:#073642;
     }
-    main {
-      padding: 30px;
-      text-align: center;
+    header{
+      background:linear-gradient(90deg,var(--blue),var(--accent));
+      color:#fff;
+      padding:22px;
+      text-align:center;
     }
-    h1, h2 {
-      color: #023e8a;
+    .container{
+      max-width:1100px;
+      margin:24px auto;
+      padding:18px;
     }
-    table {
-      width: 90%;
-      margin: 20px auto;
-      border-collapse: collapse;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      background: white;
-      border-radius: 10px;
-      overflow: hidden;
+    .card{
+      background:#fff;
+      border-radius:12px;
+      padding:16px;
+      box-shadow:0 6px 18px rgba(2,40,64,0.06);
+      margin-bottom:18px;
     }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
+    h2{ margin:6px 0 12px 0; color:var(--blue); }
+    label{ font-weight:600; display:block; margin-top:8px; }
+    input[type="number"], input[type="text"], select {
+      padding:8px 10px;
+      border-radius:8px;
+      border:1px solid #d1e9f8;
+      width:120px;
     }
-    th {
-      background-color: #0096c7;
-      color: white;
+    table{ width:100%; border-collapse:collapse; margin-top:12px; }
+    th,td{ padding:8px; border:1px solid #e6f3fb; text-align:center; font-size:14px; }
+    th{ background:var(--blue); color:#fff; }
+    .flex{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .btn{
+      background:var(--blue); color:#fff; padding:10px 14px; border-radius:8px; border:none;
+      cursor:pointer; font-weight:700;
     }
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-    .chart-container {
-      width: 85%;
-      margin: 40px auto;
-    }
-    button {
-      background-color: #0096c7;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 20px;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #023e8a;
+    .btn.secondary{ background:#6bbfe6; color:#003344; }
+    .small{ font-size:13px; padding:6px 10px; }
+    .right{ text-align:right; }
+    .note{ font-size:13px; color:#065a6a; margin-top:6px; }
+    .chart-wrap{ width:100%; max-width:900px; margin:20px auto; }
+    @media(max-width:800px){
+      input[type="number"], input[type="text"], select { width:100%; }
+      .flex { flex-direction:column; align-items:stretch; }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Hasil Perhitungan Metode MAUT</h1>
-    <p>Sistem Pendukung Keputusan Pemilihan Bibit Udang Vaname Unggul</p>
+    <h1>Perhitungan MAUT Interaktif</h1>
+    <div style="font-size:14px;opacity:0.9">Tentukan kriteria, bobot, skala, lalu masukkan nilai alternatif</div>
   </header>
 
-  <main>
-    <h2>Tabel Nilai Akhir Alternatif</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Peringkat</th>
-          <th>Alternatif</th>
-          <th>Nilai Akhir (MAUT)</th>
-          <th>Keterangan</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Bibit Udang Vaname SPF Global Gen</td>
-          <td>1.000</td>
-          <td>Bibit terbaik dan paling unggul</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Bibit Udang Vannamei F1 WAS</td>
-          <td>0.925</td>
-          <td>Kualitas tinggi</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Bibit dari PT. Bibit Unggul</td>
-          <td>0.892</td>
-          <td>Kualitas baik</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>Bibit Udang Vannamei F1 PAL</td>
-          <td>0.891</td>
-          <td>Cukup baik</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="container">
+    <!-- 1. Kriteria & Bobot -->
+    <div class="card" id="kriteriaCard">
+      <h2>1. Kriteria & Bobot</h2>
+      <div class="note">Atur bobot untuk tiap kriteria. Total bobot sebaiknya = 1. Gunakan tombol Normalisasi untuk menyesuaikan otomatis.</div>
 
-    <div class="chart-container">
-      <canvas id="hasilChart"></canvas>
+      <div style="margin-top:12px;">
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Kriteria</th>
+              <th>Bobot (input)</th>
+              <th>Skala Maks (mis. 5 atau 100)</th>
+              <th>Keterangan / Sub-kriteria</th>
+            </tr>
+          </thead>
+          <tbody id="kriteriaBody">
+            <!-- JS akan isi baris -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:12px;" class="flex">
+        <button class="btn" onclick="normalisasiBobot()">Normalisasi Bobot</button>
+        <button class="btn secondary" onclick="resetDefault()">Reset Default</button>
+        <div class="right" style="margin-left:auto">
+          <strong>Total Bobot: </strong><span id="totalBobot">0</span>
+        </div>
+      </div>
     </div>
 
-    <button onclick="window.location.href='index.html'">Kembali ke Halaman Utama</button>
-  </main>
+    <!-- 2. Alternatif & Nilai -->
+    <div class="card">
+      <h2>2. Alternatif (Bibit) & Input Nilai</h2>
+      <div class="note">Tambah / ubah alternatif (mis. Bibit A, B, ...). Masukkan nilai sesuai skala yang sudah ditentukan di baris kriteria.</div>
+
+      <div style="margin-top:12px;">
+        <div class="flex" style="margin-bottom:10px;">
+          <input type="text" id="newAltName" placeholder="Nama alternatif (contoh: F1 WAS)" />
+          <button class="btn small" onclick="tambahAlternatif()">+ Tambah Alternatif</button>
+          <button class="btn small secondary" onclick="resetAlternatif()">Reset Alternatif</button>
+        </div>
+
+        <div id="alternatifArea">
+          <!-- JS akan render tabel input nilai -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Hitung -->
+    <div class="card">
+      <h2>3. Hitung MAUT & Hasil</h2>
+      <div class="flex">
+        <button class="btn" onclick="hitungMAUT()">Hitung MAUT</button>
+        <button class="btn secondary" onclick="simpanPengaturan()">Simpan Pengaturan (localStorage)</button>
+        <button class="btn small" onclick="muatPengaturan()">Muat Pengaturan</button>
+        <div style="margin-left:auto" class="note">Setelah menghitung, hasil di bawah akan muncul tabel dan grafik.</div>
+      </div>
+
+      <div id="hasilArea" style="margin-top:18px;">
+        <!-- Tabel hasil + chart -->
+      </div>
+    </div>
+  </div>
 
   <script>
-    const ctx = document.getElementById("hasilChart").getContext("2d");
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: [
-          "SPF Global Gen",
-          "F1 WAS",
-          "PT. Bibit Unggul",
-          "F1 PAL"
-        ],
-        datasets: [{
-          label: "Nilai Akhir MAUT",
-          data: [1.00, 0.925, 0.892, 0.891],
-          backgroundColor: ["#0077b6", "#00b4d8", "#48cae4", "#90e0ef"],
-          borderRadius: 10
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 1
-          }
-        },
-        plugins: {
-          title: {
-            display: true,
-            text: "Perbandingan Nilai Akhir Bibit Udang Vaname",
-            font: { size: 16 }
-          },
-          legend: {
-            display: false
-          }
-        }
+    /***********************
+     * Data awal & helper
+     ***********************/
+    const defaultKriteria = [
+      { id: 'C1', nama: 'Lokasi Tambak', keterangan: 'Jarak, akses, keamanan', bobot: 0.20, skalaMax: 100 },
+      { id: 'C2', nama: 'Suhu Air', keterangan: 'Rentang & stabilitas', bobot: 0.20, skalaMax: 100 },
+      { id: 'C3', nama: 'Kondisi Air / Iklim', keterangan: 'pH, salinitas, DO', bobot: 0.30, skalaMax: 100 },
+      { id: 'C4', nama: 'Kondisi Tanah', keterangan: 'Tekstur, pH, organik', bobot: 0.15, skalaMax: 100 },
+      { id: 'C5', nama: 'Infrastruktur Pendukung', keterangan: 'Listrik, akses', bobot: 0.15, skalaMax: 100 }
+    ];
+
+    let kriteria = [];     // array objek
+    let alternatif = [];   // [{nama, nilai: {C1: num, C2: num,...}}]
+
+    // contoh alternatif default
+    const defaultAlternatif = [
+      'Bibit Vaname F1 WAS',
+      'Bibit Vaname F1 PAL',
+      'Bibit dari PT. Bibit Unggul',
+      'Bibit Vaname SPF Global Gen'
+    ];
+
+    /***********************
+     * Inisialisasi UI
+     ***********************/
+    function init(){
+      const saved = JSON.parse(localStorage.getItem('maut_config_v1'));
+      if(saved){
+        kriteria = saved.kriteria;
+        alternatif = saved.alternatif || [];
+      } else {
+        kriteria = JSON.parse(JSON.stringify(defaultKriteria));
+        // buat alternatif default dengan nilai kosong
+        alternatif = defaultAlternatif.map(name => ({ nama: name, nilai: {} }));
       }
-    });
+      renderKriteriaTable();
+      renderAlternatifTable();
+      updateTotalBobot();
+    }
+
+    /***********************
+     * Render Kriteria Table
+     ***********************/
+    function renderKriteriaTable(){
+      const tbody = document.getElementById('kriteriaBody');
+      tbody.innerHTML = '';
+      kriteria.forEach((k, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${idx+1}</td>
+          <td style="text-align:left">
+            <strong>${k.nama}</strong><div style="font-size:12px;color:#25646f">${k.id}</div>
+          </td>
+          <td>
+            <input type="number" step="0.01" min="0" value="${k.bobot}" id="bobot_${k.id}" oninput="updateBobot('${k.id}')" />
+          </td>
+          <td>
+            <input type="number" step="1" min="1" value="${k.skalaMax}" id="skala_${k.id}" oninput="updateSkala('${k.id}')" />
+          </td>
+          <td style="text-align:left">${k.keterangan}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateBobot(id){
+      const el = document.getElementById('bobot_' + id);
+      const val = parseFloat(el.value) || 0;
+      const item = kriteria.find(k => k.id === id);
+      item.bobot = val;
+      updateTotalBobot();
+    }
+
+    function updateSkala(id){
+      const el = document.getElementById('skala_' + id);
+      const val = parseFloat(el.value) || 1;
+      const item = kriteria.find(k => k.id === id);
+      item.skalaMax = val;
+      // no further action
+    }
+
+    function updateTotalBobot(){
+      const total = kriteria.reduce((s, k) => s + (Number(k.bobot) || 0), 0);
+      document.getElementById('totalBobot').innerText = total.toFixed(3);
+    }
+
+    function normalisasiBobot(){
+      const total = kriteria.reduce((s,k) => s + (Number(k.bobot)||0), 0);
+      if(total === 0){
+        alert('Total bobot 0 — masukkan nilai bobot terlebih dahulu.');
+        return;
+      }
+      kriteria = kriteria.map(k => ({ ...k, bobot: Number((k.bobot/total).toFixed(4)) }));
+      renderKriteriaTable();
+      updateTotalBobot();
+      alert('Bobot dinormalisasi supaya total = 1.00');
+    }
+
+    function resetDefault(){
+      if(!confirm('Kembalikan kriteria & bobot ke nilai default?')) return;
+      kriteria = JSON.parse(JSON.stringify(defaultKriteria));
+      renderKriteriaTable();
+      updateTotalBobot();
+    }
+
+    /***********************
+     * Alternatif handling
+     ***********************/
+    function renderAlternatifTable(){
+      const area = document.getElementById('alternatifArea');
+      if(alternatif.length === 0){
+        alternatif = defaultAlternatif.map(n => ({ nama:n, nilai:{} }));
+      }
+      // build table header dynamic by criteria
+      let html = '<table><thead><tr><th>No</th><th>Alternatif</th>';
+      kriteria.forEach(k => html += `<th>${k.id}<br><small>${k.nama}</small></th>`);
+      html += '<th>Aksi</th></tr></thead><tbody>';
+      alternatif.forEach((a, i) => {
+        html += `<tr>
+          <td>${i+1}</td>
+          <td style="text-align:left"><input type="text" value="${escapeHTML(a.nama)}" onchange="ubahNama(${i}, this.value)" style="width:95%"></td>`;
+        kriteria.forEach(k => {
+          const val = (a.nilai && a.nilai[k.id] !== undefined) ? a.nilai[k.id] : '';
+          html += `<td><input type="number" step="0.01" min="0" max="${k.skalaMax}" value="${val}" onchange="ubahNilai(${i}, '${k.id}', this.value)" style="width:80px"></td>`;
+        });
+        html += `<td>
+                  <button class="btn small" onclick="hapusAlternatif(${i})" style="background:#ef6b6b">Hapus</button>
+                </td></tr>`;
+      });
+      html += '</tbody></table>';
+      area.innerHTML = html;
+    }
+
+    function tambahAlternatif(){
+      const name = document.getElementById('newAltName').value.trim();
+      if(!name){
+        alert('Masukkan nama alternatif terlebih dahulu.');
+        return;
+      }
+      const newA = { nama: name, nilai: {} };
+      alternatif.push(newA);
+      document.getElementById('newAltName').value = '';
+      renderAlternatifTable();
+    }
+
+    function hapusAlternatif(idx){
+      if(!confirm('Hapus alternatif ini?')) return;
+      alternatif.splice(idx,1);
+      renderAlternatifTable();
+    }
+
+    function ubahNama(i, v){
+      alternatif[i].nama = v;
+    }
+    function ubahNilai(i, cid, v){
+      const num = v === '' ? '' : Number(v);
+      if(v === '') delete alternatif[i].nilai[cid];
+      else alternatif[i].nilai[cid] = num;
+    }
+
+    function resetAlternatif(){
+      if(!confirm('Reset ke alternatif default?')) return;
+      alternatif = defaultAlternatif.map(n => ({ nama:n, nilai:{} }));
+      renderAlternatifTable();
+    }
+
+    /***********************
+     * Perhitungan MAUT
+     ***********************/
+    function hitungMAUT(){
+      // validasi bobot > 0 total
+      const totalBobot = kriteria.reduce((s,k) => s + (Number(k.bobot)||0), 0);
+      if(totalBobot <= 0){
+        alert('Total bobot 0 — atur bobot kriteria terlebih dahulu.');
+        return;
+      }
+      // normalisasi bobot jika belum 1
+      const bobots = kriteria.map(k => Number(k.bobot) / totalBobot);
+
+      // siapkan matriks nilai
+      // pastikan setiap alternatif punya nilai untuk setiap kriteria (jika kosong, anggap 0)
+      const nilaiMatrix = alternatif.map(a => {
+        const row = {};
+        kriteria.forEach(k => {
+          const v = a.nilai[k.id];
+          row[k.id] = (v === undefined || v === '') ? 0 : Number(v);
+        });
+        return row;
+      });
+
+      // normalisasi tiap kriteria berdasarkan max (benefit criteria)
+      const maxPerK = {};
+      kriteria.forEach(k => {
+        let maxv = 0;
+        nilaiMatrix.forEach(r => { if(Number(r[k.id]) > maxv) maxv = Number(r[k.id]); });
+        // jika max = 0 (semua nol), ambil skalaMax sebagai pembagi agar avoid div0 -> hasil 0
+        if(maxv === 0) maxv = k.skalaMax || 1;
+        maxPerK[k.id] = maxv;
+      });
+
+      const normal = nilaiMatrix.map(r => {
+        const obj = {};
+        kriteria.forEach(k => {
+          obj[k.id] = (Number(r[k.id]) / maxPerK[k.id]);
+        });
+        return obj;
+      });
+
+      // hitung utilitas (nilai akhir)
+      const hasil = alternatif.map((a, i) => {
+        let sum = 0;
+        kriteria.forEach((k, j) => {
+          sum += (bobots[j] * normal[i][k.id]);
+        });
+        return { nama: a.nama, nilaiAkhir: sum };
+      });
+
+      // urutkan desc
+      hasil.sort((x,y) => y.nilaiAkhir - x.nilaiAkhir);
+
+      renderHasil(hasil);
+    }
+
+    /***********************
+     * Render hasil tabel & chart
+     ***********************/
+    let chartInstance = null;
+    function renderHasil(hasil){
+      const area = document.getElementById('hasilArea');
+      // build table
+      let html = '<h3>Hasil Perhitungan & Peringkat</h3>';
+      html += '<table><thead><tr><th>Peringkat</th><th>Alternatif</th><th>Nilai Akhir</th></tr></thead><tbody>';
+      hasil.forEach((h,i) => {
+        html += `<tr><td>${i+1}</td><td style="text-align:left">${escapeHTML(h.nama)}</td><td>${h.nilaiAkhir.toFixed(4)}</td></tr>`;
+      });
+      html += '</tbody></table>';
+
+      // chart canvas
+      html += '<div class="chart-wrap card"><canvas id="chartHasil"></canvas></div>';
+      area.innerHTML = html;
+
+      // chart
+      const labels = hasil.map(h => h.nama);
+      const data = hasil.map(h => Number(h.nilaiAkhir.toFixed(4)));
+      const ctx = document.getElementById('chartHasil').getContext('2d');
+
+      if(chartInstance) chartInstance.destroy();
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Nilai Akhir (MAUT)',
+            data,
+            backgroundColor: labels.map((_,i) => i===0? '#0077b6' : '#00b4d8'),
+            borderRadius: 8
+          }]
+        },
+        options: {
+          scales: { y: { beginAtZero:true, max:1 } },
+          plugins: { legend:{display:false}, title:{display:true, text:'Perbandingan Nilai Akhir'} }
+        }
+      });
+    }
+
+    /***********************
+     * Save / load config
+     ***********************/
+    function simpanPengaturan(){
+      const payload = { kriteria, alternatif };
+      localStorage.setItem('maut_config_v1', JSON.stringify(payload));
+      alert('Pengaturan (kriteria & alternatif) tersimpan di browser (localStorage).');
+    }
+    function muatPengaturan(){
+      const saved = JSON.parse(localStorage.getItem('maut_config_v1'));
+      if(!saved) return alert('Tidak ditemukan pengaturan ter-simpan.');
+      kriteria = saved.kriteria;
+      alternatif = saved.alternatif;
+      renderKriteriaTable();
+      renderAlternatifTable();
+      updateTotalBobot();
+      alert('Pengaturan dimuat.');
+    }
+
+    /***********************
+     * Util
+     ***********************/
+    function escapeHTML(s){
+      if(!s) return '';
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    // inisialisasi
+    init();
   </script>
 </body>
 </html>
