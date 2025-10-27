@@ -3,58 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Pengguna</title>
+  <title>Login Pengguna - SPK Bibit Udang Vaname</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #00b4d8, #0077b6);
+      background: linear-gradient(135deg, #0077b6, #00b4d8);
+      color: #333;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       height: 100vh;
       margin: 0;
     }
     .login-container {
-      background-color: white;
+      background: white;
       padding: 30px;
-      border-radius: 15px;
+      border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      width: 350px;
+      width: 320px;
       text-align: center;
     }
     h2 {
-      color: #023e8a;
-      margin-bottom: 20px;
+      color: #0077b6;
     }
-    input[type="text"], input[type="password"], input[type="email"] {
+    input {
       width: 90%;
       padding: 10px;
       margin: 8px 0;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 6px;
     }
     button {
+      width: 95%;
       background-color: #0096c7;
       color: white;
+      padding: 10px;
       border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
-      width: 100%;
-      font-size: 16px;
       margin-top: 10px;
     }
     button:hover {
       background-color: #023e8a;
     }
-    a {
+    .link {
       display: block;
       margin-top: 10px;
+      color: #0077b6;
       text-decoration: none;
-      color: #0096c7;
       font-size: 14px;
     }
-    a:hover {
+    .link:hover {
       text-decoration: underline;
     }
   </style>
@@ -62,35 +61,85 @@
 <body>
   <div class="login-container">
     <h2>Login Pengguna</h2>
-    <form id="loginForm">
-      <input type="text" id="username" placeholder="Masukkan Username" required><br>
-      <input type="password" id="password" placeholder="Masukkan Password" required><br>
-      <button type="submit">Masuk</button>
-      <a href="forgot.html">Lupa Password?</a>
-    </form>
+    <input type="text" id="username" placeholder="Username"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button onclick="login()">Masuk</button>
+    <a href="#" class="link" onclick="lupaPassword()">Lupa Password?</a>
+    <a href="#" class="link" onclick="daftar()">Daftar Akun Baru</a>
   </div>
 
   <script>
-    const users = [
-      { username: "pengguna1", password: "12345", email: "pengguna1@email.com" },
-      { username: "pengguna2", password: "abcde", email: "pengguna2@email.com" }
+    // Ambil data pengguna dari localStorage atau isi default
+    let pengguna = JSON.parse(localStorage.getItem("daftarPetambak")) || [
+      { nama: "Budi Santoso", username: "budi", password: "budi123", email: "budi@gmail.com" },
+      { nama: "Siti Aminah", username: "siti", password: "siti456", email: "siti@gmail.com" }
     ];
+    localStorage.setItem("daftarPetambak", JSON.stringify(pengguna));
 
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+    // Fungsi login
+    function login() {
       const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value.trim();
 
-      const user = users.find(u => u.username === username && u.password === password);
-
-      if (user) {
-        localStorage.setItem("loggedInUser", JSON.stringify(user));
-        alert("Login berhasil!");
+      const akun = pengguna.find(u => u.username === username && u.password === password);
+      if (akun) {
+        alert("Login berhasil! Selamat datang, " + akun.nama);
         window.location.href = "hitung.html";
       } else {
         alert("Username atau password salah!");
       }
-    });
+    }
+
+    // Fungsi lupa password
+    function lupaPassword() {
+      const email = prompt("Masukkan alamat email Anda untuk reset password:");
+      if (!email) return;
+
+      const akun = pengguna.find(u => u.email === email);
+      if (!akun) {
+        alert("Email tidak ditemukan dalam sistem!");
+        return;
+      }
+
+      const passwordBaru = prompt("Masukkan password baru Anda:");
+      if (!passwordBaru) {
+        alert("Password baru tidak boleh kosong!");
+        return;
+      }
+
+      akun.password = passwordBaru;
+      localStorage.setItem("daftarPetambak", JSON.stringify(pengguna));
+
+      alert("Password berhasil direset! Silakan login dengan password baru.");
+    }
+
+    // Fungsi daftar akun baru
+    function daftar() {
+      const nama = prompt("Masukkan nama lengkap Anda:");
+      if (!nama) return;
+
+      const username = prompt("Masukkan username baru:");
+      if (!username) return;
+
+      const password = prompt("Masukkan password:");
+      if (!password) return;
+
+      const email = prompt("Masukkan alamat email:");
+      if (!email) return;
+
+      // Cek apakah username sudah ada
+      const ada = pengguna.find(u => u.username === username);
+      if (ada) {
+        alert("Username sudah digunakan! Silakan pilih username lain.");
+        return;
+      }
+
+      // Simpan ke localStorage
+      pengguna.push({ nama, username, password, email });
+      localStorage.setItem("daftarPetambak", JSON.stringify(pengguna));
+
+      alert("Akun berhasil dibuat! Silakan login menggunakan username baru Anda.");
+    }
   </script>
 </body>
 </html>
