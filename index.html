@@ -3,86 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login Petambak - SPK Bibit Udang Vaname</title>
+  <title>Login Petambak</title>
   <style>
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin: 0;
-      background: linear-gradient(180deg, #e0f7ff, #c2f0ff);
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #a1c4fd, #c2e9fb);
       height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
     }
-    .login-box {
-      background: #fff;
-      padding: 40px 30px;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-      width: 320px;
+    .login-container {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       text-align: center;
+      width: 320px;
     }
     h2 {
-      color: #0077b6;
       margin-bottom: 20px;
+      color: #004aad;
     }
     input {
-      width: 100%;
+      width: 90%;
       padding: 10px;
-      margin: 8px 0;
+      margin: 10px 0;
+      border: 1px solid #ccc;
       border-radius: 8px;
-      border: 1px solid #cce7f3;
-      font-size: 14px;
     }
     button {
-      background: #0077b6;
+      width: 95%;
+      padding: 10px;
+      background-color: #007bff;
       color: white;
       border: none;
-      padding: 10px 16px;
-      width: 100%;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      margin-top: 10px;
     }
     button:hover {
-      background: #00b4d8;
+      background-color: #0056b3;
     }
-    .note {
-      font-size: 13px;
-      color: #065a6a;
-      margin-top: 10px;
+    p {
+      font-size: 14px;
+      margin-top: 15px;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="login-box">
+  <div class="login-container">
     <h2>Login Petambak</h2>
-    <input type="text" id="username" placeholder="Nama pengguna" />
-    <input type="password" id="password" placeholder="Kata sandi" />
+    <input type="text" id="username" placeholder="Alamat Email" />
+    <input type="password" id="password" placeholder="Kata Sandi" />
     <button onclick="login()">Masuk</button>
-    <p class="note">Gunakan nama dan kata sandi sesuai data petambak.</p>
+
+    <p><a href="#" onclick="lupaPassword()">Lupa Password?</a></p>
+    <p>Belum punya akun? <a href="register.html">Daftar Akun Baru</a></p>
   </div>
 
   <script>
     function login() {
-      const user = document.getElementById("username").value.trim();
-      const pass = document.getElementById("password").value.trim();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
 
-      // Contoh validasi sederhana (bisa kamu ubah sesuai kebutuhan)
-      if (user === "" || pass === "") {
-        alert("Isi nama pengguna dan kata sandi terlebih dahulu!");
-        return;
-      }
-
-      // Contoh login statis (bisa diganti nanti)
-      if (user === "petambak" && pass === "12345") {
-        // Simpan nama user ke localStorage agar muncul di dashboard
-        localStorage.setItem("userLogin", user);
-        // Arahkan ke dashboard
+      // Login sederhana (contoh)
+      if (username === "petambak@gmail.com" && password === "12345") {
+        alert("Login berhasil!");
         window.location.href = "dashboard.html";
       } else {
-        alert("Nama pengguna atau kata sandi salah!");
+        alert("Email atau kata sandi salah!");
+      }
+    }
+
+    function lupaPassword() {
+      const email = prompt("Masukkan alamat email Anda untuk reset password:");
+      if (email) {
+        alert("Link reset password telah dikirim ke " + email);
       }
     }
   </script>
