@@ -1,92 +1,96 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Petambak</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #a1c4fd, #c2e9fb);
-      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #0099cc, #00ccff);
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100vh;
+      margin: 0;
     }
     .login-container {
       background: white;
       padding: 40px;
       border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      width: 350px;
       text-align: center;
-      width: 320px;
     }
     h2 {
       margin-bottom: 20px;
-      color: #004aad;
+      color: #0077b6;
     }
     input {
-      width: 90%;
+      width: 100%;
       padding: 10px;
       margin: 10px 0;
+      border-radius: 10px;
       border: 1px solid #ccc;
-      border-radius: 8px;
     }
     button {
-      width: 95%;
+      width: 100%;
       padding: 10px;
-      background-color: #007bff;
-      color: white;
+      background-color: #0077b6;
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
+      border-radius: 10px;
+      color: white;
       font-weight: bold;
+      cursor: pointer;
     }
     button:hover {
-      background-color: #0056b3;
+      background-color: #0096c7;
     }
-    p {
-      font-size: 14px;
+    .links {
       margin-top: 15px;
     }
-    a {
-      color: #007bff;
+    .links a {
+      display: block;
+      color: #0077b6;
       text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
+      font-size: 14px;
+      margin-top: 5px;
     }
   </style>
 </head>
 <body>
   <div class="login-container">
     <h2>Login Petambak</h2>
-    <input type="text" id="username" placeholder="Alamat Email" />
-    <input type="password" id="password" placeholder="Kata Sandi" />
+    <input type="email" id="email" placeholder="Masukkan Email" required>
+    <input type="password" id="password" placeholder="Masukkan Password" required>
     <button onclick="login()">Masuk</button>
 
-    <p><a href="#" onclick="lupaPassword()">Lupa Password?</a></p>
-    <p>Belum punya akun? <a href="register.html">Daftar Akun Baru</a></p>
+    <div class="links">
+      <a href="#">Lupa Password?</a>
+      <a href="#">Daftar Akun Baru</a>
+    </div>
   </div>
 
   <script>
+    // Akun login contoh (bisa diatur dinamis dari admin nanti)
+    const akunPetambak = [
+      { email: "petambak1@gmail.com", password: "12345" },
+      { email: "petambak2@gmail.com", password: "67890" }
+    ];
+
     function login() {
-      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
-      // Login sederhana (contoh)
-      if (username === "petambak@gmail.com" && password === "12345") {
-        alert("Login berhasil!");
-        window.location.href = "dashboard.html";
-      } else {
-        alert("Email atau kata sandi salah!");
-      }
-    }
+      const valid = akunPetambak.find(
+        (akun) => akun.email === email && akun.password === password
+      );
 
-    function lupaPassword() {
-      const email = prompt("Masukkan alamat email Anda untuk reset password:");
-      if (email) {
-        alert("Link reset password telah dikirim ke " + email);
+      if (valid) {
+        alert("Login berhasil! Mengarahkan ke Dashboard...");
+        window.location.href = "dashboard.html"; // 🔹 Langsung ke Dashboard
+      } else {
+        alert("Email atau password salah!");
       }
     }
   </script>
