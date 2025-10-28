@@ -3,137 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Sistem MAUT - Bibit Udang Vaname</title>
+  <title>Login Petambak - SPK MAUT</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f6f9fc;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    header {
-      background: linear-gradient(135deg, #0077b6, #00b4d8);
-      color: white;
-      text-align: center;
-      width: 100%;
-      padding: 40px 20px;
-      border-bottom-left-radius: 30px;
-      border-bottom-right-radius: 30px;
-    }
-
-    h1 {
-      margin-bottom: 10px;
-    }
-
-    main {
-      margin-top: 60px;
-      background-color: white;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      width: 350px;
-      text-align: left;
-    }
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 15px;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    .btn {
-      background-color: #0096c7;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-top: 20px;
-      width: 100%;
-      transition: background 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #023e8a;
-    }
-
-    p {
-      text-align: center;
-      margin-top: 20px;
-      color: #333;
-    }
+    body { font-family: Arial; background:#e6f0ff; display:flex; justify-content:center; align-items:center; height:100vh; }
+    .login-box { background:white; padding:30px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2); width:300px; text-align:center; }
+    input { width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:5px; }
+    button { background:#0066cc; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; }
+    button:hover { background:#004c99; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Implementasi Metode MAUT</h1>
-    <h3>Sistem Pendukung Keputusan Penentuan Bibit Udang Vaname Unggul</h3>
-  </header>
-
-  <main>
-    <h2 style="text-align:center;">Login</h2>
-
-    <form id="loginForm">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" placeholder="Masukkan username" required>
-
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Masukkan password" required>
-
-      <label for="role">Login sebagai</label>
-      <select id="role" name="role">
-        <option value="admin">Admin</option>
-        <option value="pengguna">Pengguna</option>
-      </select>
-
-      <button type="submit" class="btn">Masuk</button>
-    </form>
-
-    <p>Gunakan akun yang telah terdaftar untuk masuk ke sistem.</p>
-  </main>
+  <div class="login-box">
+    <h2>Login Petambak</h2>
+    <input type="text" id="username" placeholder="Nama pengguna" required>
+    <input type="password" id="password" placeholder="Kata sandi" required>
+    <button onclick="login()">Masuk</button>
+    <p id="msg" style="color:red;"></p>
+  </div>
 
   <script>
-    // Login sederhana tanpa database
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
-      event.preventDefault();
+    function login() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
 
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-      const role = document.getElementById("role").value;
-
-      // Login untuk ADMIN
-      if (role === "admin") {
-        if (username === "admin" && password === "admin123") {
-          alert("Login Admin berhasil!");
-          window.location.href = "admin.html"; // ke halaman daftar akun petambak
-        } else {
-          alert("Username atau password admin salah!");
-        }
+      // Username & password contoh sederhana
+      if (user === "petambak" && pass === "12345") {
+        // redirect ke dashboard.html
+        window.location.href = "dashboard.html";
+      } else {
+        document.getElementById('msg').innerText = "Login gagal! Periksa kembali data Anda.";
       }
-
-      // Login untuk PETAMBAK
-      else if (role === "pengguna") {
-        if (username === "user" && password === "user123") {
-          alert("Login Pengguna berhasil!");
-          window.location.href = "hitung.html"; // ke halaman penilaian MAUT
-        } else {
-          alert("Username atau password pengguna salah!");
-        }
-      }
-    });
+    }
   </script>
 </body>
 </html>
