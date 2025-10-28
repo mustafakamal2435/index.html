@@ -1,186 +1,124 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perhitungan MAUT - SPK Bibit Udang Vaname</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Petambak - SPK Bibit Udang Vaname</title>
   <style>
     body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #f1fbff;
       margin: 0;
-      padding: 20px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #f1fbff;
     }
-    h1 {
-      color: #0077b6;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .section {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    th, td {
-      border: 1px solid #cce7f3;
-      padding: 10px;
-      text-align: center;
-    }
-    th {
+    header {
       background: #0077b6;
       color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    input[type="number"] {
-      width: 80px;
-      padding: 6px;
-      border: 1px solid #cce7f3;
-      border-radius: 6px;
+    header h1 {
+      font-size: 20px;
+      margin: 0;
     }
-    button {
-      background: #0077b6;
+    button.logout {
+      background: #ff4d4d;
       color: white;
       border: none;
-      padding: 10px 16px;
+      padding: 8px 16px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      margin-top: 10px;
     }
-    button:hover {
-      background: #0096c7;
+    button.logout:hover {
+      background: #e03e3e;
     }
-    .result-box {
-      background: #e0f7ff;
-      border-radius: 12px;
+    main {
       padding: 20px;
-      margin-top: 20px;
+    }
+    .welcome {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card h3 {
+      color: #0077b6;
+      margin-bottom: 10px;
+    }
+    a.button {
+      display: inline-block;
+      background: #0077b6;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a.button:hover {
+      background: #0096c7;
     }
   </style>
 </head>
 <body>
-  <h1>Perhitungan MAUT - Bibit Udang Vaname</h1>
+  <header>
+    <h1>Dashboard Petambak</h1>
+    <button class="logout" onclick="logout()">Logout</button>
+  </header>
 
-  <div class="section">
-    <h2>1️⃣ Kriteria dan Bobot</h2>
-    <table id="kriteriaTable">
-      <tr>
-        <th>Kriteria</th>
-        <th>Bobot</th>
-      </tr>
-      <tr><td>Warna Tubuh</td><td><input type="number" value="0.2" step="0.01" min="0"></td></tr>
-      <tr><td>Pergerakan Aktif</td><td><input type="number" value="0.15" step="0.01" min="0"></td></tr>
-      <tr><td>Bentuk Tubuh Normal</td><td><input type="number" value="0.15" step="0.01" min="0"></td></tr>
-      <tr><td>Usus Penuh</td><td><input type="number" value="0.2" step="0.01" min="0"></td></tr>
-      <tr><td>Ekor Mengembang</td><td><input type="number" value="0.15" step="0.01" min="0"></td></tr>
-      <tr><td>Mata Cerah</td><td><input type="number" value="0.15" step="0.01" min="0"></td></tr>
-    </table>
-  </div>
+  <main>
+    <div class="welcome">
+      <h2 id="greeting">Selamat Datang, Petambak 👋</h2>
+      <p>Gunakan menu di bawah ini untuk melanjutkan proses penilaian bibit udang vaname unggul.</p>
+    </div>
 
-  <div class="section">
-    <h2>2️⃣ Alternatif Bibit dan Nilai</h2>
-    <table id="alternatifTable">
-      <tr>
-        <th>Alternatif Bibit</th>
-        <th>Warna Tubuh</th>
-        <th>Pergerakan Aktif</th>
-        <th>Bentuk Tubuh</th>
-        <th>Usus Penuh</th>
-        <th>Ekor Mengembang</th>
-        <th>Mata Cerah</th>
-      </tr>
-      <tr>
-        <td>Bibit A</td>
-        <td><input type="number" value="80"></td>
-        <td><input type="number" value="90"></td>
-        <td><input type="number" value="85"></td>
-        <td><input type="number" value="88"></td>
-        <td><input type="number" value="82"></td>
-        <td><input type="number" value="80"></td>
-      </tr>
-      <tr>
-        <td>Bibit B</td>
-        <td><input type="number" value="85"></td>
-        <td><input type="number" value="85"></td>
-        <td><input type="number" value="83"></td>
-        <td><input type="number" value="90"></td>
-        <td><input type="number" value="88"></td>
-        <td><input type="number" value="86"></td>
-      </tr>
-      <tr>
-        <td>Bibit C</td>
-        <td><input type="number" value="70"></td>
-        <td><input type="number" value="75"></td>
-        <td><input type="number" value="78"></td>
-        <td><input type="number" value="80"></td>
-        <td><input type="number" value="76"></td>
-        <td><input type="number" value="75"></td>
-      </tr>
-    </table>
-    <button onclick="hitungMAUT()">Hitung MAUT</button>
-  </div>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Mulai Perhitungan MAUT</h3>
+        <p>Lakukan proses perhitungan kriteria untuk menentukan bibit udang terbaik.</p>
+        <a href="hitung.html" class="button">Mulai Hitung</a>
+      </div>
 
-  <div id="hasil" class="result-box" style="display:none;">
-    <h2>3️⃣ Hasil Akhir Perhitungan MAUT</h2>
-    <table id="hasilTable">
-      <tr>
-        <th>Alternatif</th>
-        <th>Nilai Akhir</th>
-        <th>Peringkat</th>
-      </tr>
-    </table>
-  </div>
+      <div class="card">
+        <h3>Lihat Hasil Penilaian</h3>
+        <p>Tampilkan hasil akhir dari proses MAUT dan peringkat bibit terbaik.</p>
+        <a href="hasil.html" class="button">Lihat Hasil</a>
+      </div>
+    </div>
+  </main>
 
   <script>
-    function hitungMAUT() {
-      const bobotInputs = document.querySelectorAll('#kriteriaTable input');
-      const alternatifRows = document.querySelectorAll('#alternatifTable tr:not(:first-child)');
-      const hasilDiv = document.getElementById('hasil');
-      const hasilTable = document.getElementById('hasilTable');
+    // Tampilkan nama user yang login
+    const user = localStorage.getItem("userLogin");
+    if (!user) {
+      // Jika belum login, kembalikan ke halaman login
+      window.location.href = "index.html";
+    } else {
+      document.getElementById("greeting").textContent = `Selamat Datang, ${user} 👋`;
+    }
 
-      let bobot = [];
-      let totalBobot = 0;
-      bobotInputs.forEach(b => {
-        let val = parseFloat(b.value) || 0;
-        bobot.push(val);
-        totalBobot += val;
-      });
-
-      // Normalisasi bobot
-      bobot = bobot.map(b => b / totalBobot);
-
-      let hasil = [];
-
-      alternatifRows.forEach(row => {
-        const cells = row.querySelectorAll('input');
-        const nama = row.cells[0].textContent.trim();
-        let skor = 0;
-        cells.forEach((input, i) => {
-          skor += (parseFloat(input.value) || 0) * bobot[i];
-        });
-        hasil.push({ nama, skor });
-      });
-
-      hasil.sort((a, b) => b.skor - a.skor);
-
-      // Hapus hasil lama
-      hasilTable.innerHTML = `
-        <tr><th>Alternatif</th><th>Nilai Akhir</th><th>Peringkat</th></tr>
-      `;
-
-      hasil.forEach((h, i) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${h.nama}</td><td>${h.skor.toFixed(2)}</td><td>${i + 1}</td>`;
-        hasilTable.appendChild(tr);
-      });
-
-      hasilDiv.style.display = 'block';
+    // Fungsi logout
+    function logout() {
+      localStorage.removeItem("userLogin");
+      window.location.href = "index.html";
     }
   </script>
 </body>
