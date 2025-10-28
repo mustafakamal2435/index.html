@@ -1,176 +1,42 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panel Admin - Akun Petambak</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f1f5f9;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background: linear-gradient(135deg, #0077b6, #00b4d8);
-      color: white;
-      text-align: center;
-      padding: 30px;
-      border-bottom-left-radius: 30px;
-      border-bottom-right-radius: 30px;
-    }
-
-    h1 {
-      margin: 0;
-    }
-
-    main {
-      margin: 40px auto;
-      width: 90%;
-      max-width: 900px;
-      background-color: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
-    }
-
-    th {
-      background-color: #00b4d8;
-      color: white;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-
-    .btn {
-      background-color: #0096c7;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      margin-top: 15px;
-      transition: background 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #023e8a;
-    }
-
-    .logout {
-      background-color: #e63946;
-    }
-
-    .logout:hover {
-      background-color: #b02a37;
-    }
-
-    .top-buttons {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Login Admin - SPK MAUT Bibit Udang</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;background:linear-gradient(180deg,#e6f7ff,#c2f0ff);height:100vh;display:flex;align-items:center;justify-content:center;margin:0}
+.card{background:#fff;padding:28px;border-radius:12px;box-shadow:0 8px 30px rgba(2,24,43,0.08);width:360px;text-align:center}
+h2{color:#0077b6;margin:0 0 14px}
+input{width:90%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #dbeffc}
+button{background:#0077b6;color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer}
+button:hover{background:#005f87}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Panel Admin</h1>
-    <h3>Daftar Akun Petambak</h3>
-  </header>
+<div class="card">
+<h2>Login Admin SPK MAUT</h2>
+<input id="adminUser" placeholder="Username (contoh: admin)" value="admin" />
+<input id="adminPass" placeholder="Password" value="12345" />
+<div style="height:10px"></div>
+<button onclick="loginAdmin()">Masuk sebagai Admin</button>
+<p style="font-size:13px;color:#065a6a;margin-top:12px">Default: <strong>admin</strong> / <strong>12345</strong></p>
+</div>
 
-  <main>
-    <div class="top-buttons">
-      <button class="btn" onclick="tambahAkun()">+ Tambah Akun Baru</button>
-      <button class="btn logout" onclick="logout()">Keluar</button>
-    </div>
 
-    <table id="tabelAkun">
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Nama Petambak</th>
-          <th>Username</th>
-          <th>Password</th>
-          <th>Aksi</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </main>
-
-  <script>
-    // Ambil data dari localStorage
-    let daftarPetambak = JSON.parse(localStorage.getItem("daftarPetambak")) || [];
-
-    // Tampilkan data di tabel
-    function renderTabel() {
-      const tbody = document.querySelector("#tabelAkun tbody");
-      tbody.innerHTML = "";
-      daftarPetambak.forEach((p, i) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${i + 1}</td>
-          <td>${p.nama}</td>
-          <td>${p.username}</td>
-          <td>${p.password}</td>
-          <td><button class="btn" onclick="hapusAkun(${i})">Hapus</button></td>
-        `;
-        tbody.appendChild(row);
-      });
-      localStorage.setItem("daftarPetambak", JSON.stringify(daftarPetambak));
-    }
-
-    // Tambah akun baru
-    function tambahAkun() {
-      const nama = prompt("Masukkan nama petambak:");
-      const username = prompt("Masukkan username:");
-      const password = prompt("Masukkan password:");
-
-      if (!nama || !username || !password) {
-        alert("Semua field harus diisi!");
-        return;
-      }
-
-      daftarPetambak.push({ nama, username, password });
-      localStorage.setItem("daftarPetambak", JSON.stringify(daftarPetambak));
-      renderTabel();
-      alert("Akun petambak berhasil ditambahkan!");
-    }
-
-    // Hapus akun
-    function hapusAkun(index) {
-      if (confirm("Yakin ingin menghapus akun ini?")) {
-        daftarPetambak.splice(index, 1);
-        localStorage.setItem("daftarPetambak", JSON.stringify(daftarPetambak));
-        renderTabel();
-      }
-    }
-
-    // Logout
-    function logout() {
-      alert("Anda telah keluar dari akun admin.");
-      window.location.href = "login.html";
-    }
-
-    // Tampilkan data awal
-    renderTabel();
-  </script>
-</<button onclick="tambahAkun()"></button>
-<table id="tabelPetambak" border="1" style="margin:20px auto; border-collapse:collapse;"></table>
+<script>
+function loginAdmin(){
+const u = document.getElementById('adminUser').value.trim();
+const p = document.getElementById('adminPass').value.trim();
+if(u === 'admin' && p === '12345'){
+localStorage.setItem('adminLoggedIn','true');
+// ensure adminLoggedOut flag removed
+localStorage.removeItem('adminLoggedOut');
+window.location.href = 'admin-dashboard.html';
+} else {
+alert('Username atau password admin salah.');
+}
+}
+</script>
+</body>
 </html>
