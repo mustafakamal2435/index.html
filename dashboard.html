@@ -1,125 +1,40 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Petambak - SPK Bibit Udang Vaname</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background-color: #f1fbff;
-    }
-    header {
-      background: #0077b6;
-      color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      font-size: 20px;
-      margin: 0;
-    }
-    button.logout {
-      background: #ff4d4d;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    button.logout:hover {
-      background: #e03e3e;
-    }
-    main {
-      padding: 20px;
-    }
-    .welcome {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-    }
-    .card {
-      background: white;
-      padding: 16px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      transition: transform 0.2s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    .card h3 {
-      color: #0077b6;
-      margin-bottom: 10px;
-    }
-    a.button {
-      display: inline-block;
-      background: #0077b6;
-      color: white;
-      padding: 10px 14px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a.button:hover {
-      background: #0096c7;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Admin - Daftar Petambak</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;background:#f1fbff;margin:0;padding:20px}
+header{background:linear-gradient(90deg,#0077b6,#00b4d8);color:#fff;padding:14px;border-radius:10px}
+.container{max-width:1000px;margin:18px auto}
+.card{background:#fff;padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.06);margin-bottom:12px}
+input{padding:8px;border:1px solid #e6f3fb;border-radius:8px}
+button{background:#0077b6;color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #eef6fb;text-align:left}
+.danger{background:#ef6b6b}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Dashboard Petambak</h1>
-    <button class="logout" onclick="logout()">Logout</button>
-  </header>
+<header>
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div><strong>Admin Dashboard — Kelola Petambak</strong></div>
+<div><button onclick="logoutAdmin()">Logout Admin</button></div>
+</div>
+</header>
 
-  <main>
-    <div class="welcome">
-      <h2 id="greeting">Selamat Datang, Petambak 👋</h2>
-      <p>Gunakan menu di bawah ini untuk melanjutkan proses penilaian bibit udang vaname unggul.</p>
-    </div>
 
-    <div class="card-grid">
-      <div class="card">
-        <h3>Mulai Perhitungan MAUT</h3>
-        <p>Lakukan proses perhitungan kriteria untuk menentukan bibit udang terbaik.</p>
-        <a href="hitung.html" class="button">Mulai Hitung</a>
-      </div>
+<div class="container">
+<div class="card">
+<h3>Tambah Petambak Baru</h3>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<input id="p_name" placeholder="Nama lengkap" />
+<input id="p_email" placeholder="Email" />
+<input id="p_pass" placeholder="Password" />
+<button onclick="tambahPetambak()">Tambah</button>
+</div>
+</div>
 
-      <div class="card">
-        <h3>Lihat Hasil Penilaian</h3>
-        <p>Tampilkan hasil akhir dari proses MAUT dan peringkat bibit terbaik.</p>
-        <a href="hasil.html" class="button">Lihat Hasil</a>
-      </div>
-    </div>
-  </main>
 
-  <script>
-    // Tampilkan nama user yang login
-    const user = localStorage.getItem("userLogin");
-    if (!user) {
-      // Jika belum login, kembalikan ke halaman login
-      window.location.href = "index.html";
-    } else {
-      document.getElementById("greeting").textContent = `Selamat Datang, ${user} 👋`;
-    }
-
-    // Fungsi logout
-    function logout() {
-      localStorage.removeItem("userLogin");
-      window.location.href = "index.html";
-    }
-  </script>
-</body>
 </html>
