@@ -3,122 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Petambak - SPK MAUT Bibit Udang Vaname</title>
+  <title>Dashboard Petambak - SPK Bibit Udang Vaname</title>
   <style>
-    :root {
-      --biru: #0077b6;
-      --laut: #00b4d8;
-      --muda: #caf0f8;
-    }
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
-      background: #f7fbff;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #f1fbff;
     }
     header {
-      background: linear-gradient(90deg, var(--biru), var(--laut));
+      background: #0077b6;
       color: white;
-      padding: 18px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .container {
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 20px;
+    header h1 {
+      font-size: 20px;
+      margin: 0;
     }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-    h2 {
-      color: var(--biru);
-      margin-top: 0;
-    }
-    .btn {
-      background: var(--biru);
+    button.logout {
+      background: #ff4d4d;
       color: white;
-      padding: 10px 16px;
       border: none;
+      padding: 8px 16px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      transition: 0.3s;
     }
-    .btn:hover {
-      background: var(--laut);
+    button.logout:hover {
+      background: #e03e3e;
     }
-    .logout {
-      float: right;
-      background: #ef4444;
+    main {
+      padding: 20px;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-    .feature {
-      background: var(--muda);
+    .welcome {
+      background: white;
       padding: 20px;
       border-radius: 12px;
-      text-align: center;
-      transition: 0.3s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
     }
-    .feature:hover {
-      background: #d9f5ff;
-      transform: translateY(-4px);
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card h3 {
+      color: #0077b6;
+      margin-bottom: 10px;
+    }
+    a.button {
+      display: inline-block;
+      background: #0077b6;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a.button:hover {
+      background: #0096c7;
     }
   </style>
 </head>
 <body>
   <header>
-    Dashboard Petambak - SPK MAUT Udang Vaname
-    <button class="btn logout" onclick="logout()">Keluar</button>
+    <h1>Dashboard Petambak</h1>
+    <button class="logout" onclick="logout()">Logout</button>
   </header>
 
-  <div class="container">
-    <div class="card">
-      <h2>Selamat Datang, <span id="namaUser">Petambak</span> 👋</h2>
-      <p>
-        Sistem Pendukung Keputusan ini menggunakan <strong>Metode MAUT</strong> untuk membantu petambak
-        menentukan bibit udang vaname unggul berdasarkan beberapa kriteria seperti lokasi tambak,
-        suhu air, kondisi tanah, dan lainnya.
-      </p>
+  <main>
+    <div class="welcome">
+      <h2 id="greeting">Selamat Datang, Petambak 👋</h2>
+      <p>Gunakan menu di bawah ini untuk melanjutkan proses penilaian bibit udang vaname unggul.</p>
     </div>
 
-    <div class="grid">
-      <div class="feature">
-        <h3>⚙️ Perhitungan MAUT</h3>
-        <p>Lakukan perhitungan bibit udang unggul secara interaktif.</p>
-        <button class="btn" onclick="window.location.href='hitung.html'">Mulai Hitung</button>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Mulai Perhitungan MAUT</h3>
+        <p>Lakukan proses perhitungan kriteria untuk menentukan bibit udang terbaik.</p>
+        <a href="hitung.html" class="button">Mulai Hitung</a>
       </div>
-      <div class="feature">
-        <h3>📊 Data & Analisis</h3>
-        <p>Lihat hasil peringkat dan performa alternatif bibit yang telah dihitung.</p>
-        <button class="btn" onclick="window.location.href='hitung.html#hasilArea'">Lihat Hasil</button>
-      </div>
-      <div class="feature">
-        <h3>📖 Panduan</h3>
-        <p>Pelajari cara menggunakan sistem MAUT dengan mudah dan cepat.</p>
-        <button class="btn" onclick="alert('1. Masukkan kriteria & bobot\n2. Isi nilai tiap alternatif\n3. Klik “Hitung MAUT” untuk melihat hasil.')">Lihat Panduan</button>
+
+      <div class="card">
+        <h3>Lihat Hasil Penilaian</h3>
+        <p>Tampilkan hasil akhir dari proses MAUT dan peringkat bibit terbaik.</p>
+        <a href="hasil.html" class="button">Lihat Hasil</a>
       </div>
     </div>
-  </div>
+  </main>
 
   <script>
-    // ambil nama pengguna dari localStorage (diset dari login)
+    // Tampilkan nama user yang login
     const user = localStorage.getItem("userLogin");
-    if (user) {
-      document.getElementById("namaUser").textContent = user;
-    } else {
-      // jika belum login, kembali ke halaman login
+    if (!user) {
+      // Jika belum login, kembalikan ke halaman login
       window.location.href = "index.html";
+    } else {
+      document.getElementById("greeting").textContent = `Selamat Datang, ${user} 👋`;
     }
 
+    // Fungsi logout
     function logout() {
       localStorage.removeItem("userLogin");
       window.location.href = "index.html";
