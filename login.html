@@ -3,74 +3,153 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Petambak - SPK MAUT</title>
+  <title>Login Petambak - SPK Bibit Udang Vaname</title>
   <style>
     body {
-      font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(to bottom right, #0077b6, #90e0ef);
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(to bottom right, #0077b6, #00b4d8);
+      color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
     }
-    .login-box {
-      background: white;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-      width: 320px;
+
+    .container {
+      background: #fff;
+      color: #333;
+      padding: 30px;
+      border-radius: 20px;
+      width: 350px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
       text-align: center;
     }
+
     h2 {
       margin-bottom: 20px;
       color: #0077b6;
     }
+
     input {
       width: 90%;
       padding: 10px;
       margin: 10px 0;
-      border: 1px solid #ccc;
       border-radius: 8px;
+      border: 1px solid #ccc;
     }
+
     button {
-      width: 100%;
+      width: 95%;
       padding: 10px;
-      background: #0077b6;
-      color: white;
       border: none;
       border-radius: 8px;
-      font-weight: bold;
+      background-color: #0077b6;
+      color: #fff;
+      font-size: 16px;
       cursor: pointer;
+      transition: 0.3s;
     }
+
     button:hover {
-      background: #005f87;
+      background-color: #005f87;
     }
-    #msg {
-      color: red;
+
+    .link {
+      display: block;
       margin-top: 10px;
+      color: #0077b6;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="login-box">
+
+  <div class="container" id="login-container">
     <h2>Login Petambak</h2>
-    <input type="text" id="username" placeholder="Nama pengguna">
-    <input type="password" id="password" placeholder="Kata sandi">
+    <input type="email" id="loginEmail" placeholder="Email" required>
+    <input type="password" id="loginPassword" placeholder="Kata Sandi" required>
     <button onclick="login()">Masuk</button>
-    <p id="msg"></p>
+    <span class="link" onclick="showForgotPassword()">Lupa Password?</span>
+    <span class="link" onclick="showRegister()">Daftar Baru</span>
+  </div>
+
+  <div class="container hidden" id="register-container">
+    <h2>Daftar Pengguna Baru</h2>
+    <input type="text" id="regName" placeholder="Nama Lengkap" required>
+    <input type="email" id="regEmail" placeholder="Email" required>
+    <input type="password" id="regPassword" placeholder="Kata Sandi" required>
+    <button onclick="register()">Daftar</button>
+    <span class="link" onclick="showLogin()">Sudah punya akun? Masuk</span>
+  </div>
+
+  <div class="container hidden" id="forgot-container">
+    <h2>Lupa Password</h2>
+    <input type="email" id="forgotEmail" placeholder="Masukkan Email Terdaftar" required>
+    <button onclick="resetPassword()">Kirim Link Reset</button>
+    <span class="link" onclick="showLogin()">Kembali ke Login</span>
   </div>
 
   <script>
-    function login() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
+    function showRegister() {
+      document.getElementById('login-container').classList.add('hidden');
+      document.getElementById('register-container').classList.remove('hidden');
+    }
 
-      if (user === "petambak" && pass === "12345") {
-        localStorage.setItem("loggedIn", "true");
-        window.location.href = "dashboard.html";
+    function showLogin() {
+      document.getElementById('login-container').classList.remove('hidden');
+      document.getElementById('register-container').classList.add('hidden');
+      document.getElementById('forgot-container').classList.add('hidden');
+    }
+
+    function showForgotPassword() {
+      document.getElementById('login-container').classList.add('hidden');
+      document.getElementById('forgot-container').classList.remove('hidden');
+    }
+
+    function register() {
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
+      const name = document.getElementById('regName').value;
+
+      if (email && password && name) {
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userPassword', password);
+        alert("Pendaftaran berhasil! Silakan login.");
+        showLogin();
       } else {
-        document.getElementById("msg").innerText = "Login gagal! Coba lagi.";
+        alert("Isi semua data terlebih dahulu!");
+      }
+    }
+
+    function login() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const savedEmail = localStorage.getItem('userEmail');
+      const savedPassword = localStorage.getItem('userPassword');
+
+      if (email === savedEmail && password === savedPassword) {
+        alert("Login berhasil! Selamat datang petambak.");
+        window.location.href = "dashboard.html"; // diarahkan ke dashboard
+      } else {
+        alert("Email atau kata sandi salah!");
+      }
+    }
+
+    function resetPassword() {
+      const email = document.getElementById('forgotEmail').value;
+      const savedEmail = localStorage.getItem('userEmail');
+
+      if (email === savedEmail) {
+        alert("Link reset password telah dikirim ke email: " + email);
+        showLogin();
+      } else {
+        alert("Email tidak ditemukan!");
       }
     }
   </script>
