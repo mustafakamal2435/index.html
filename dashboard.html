@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dashboard Petambak — SPK MAUT Bibit Udang</title>
+  <style>
+    :root{
+      --bg:#f4fbff;
+      --card:#ffffff;
+      --primary:#0077b6;
+      --accent:#00b4d8;
+      --muted:#6b7c86;
+      --success:#2dce89;
+      --danger:#ff6b6b;
+      --glass: rgba(255,255,255,0.7);
+      --radius:12px;
+      --shadow: 0 6px 18px rgba(2,6,23,0.08);
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#eaf6ff);color:#052028}
+    .wrap{display:flex;min-height:100vh}
+
+    /* SIDEBAR */
+    .sidebar{width:260px;background:linear-gradient(180deg,var(--primary),#005f86);color:#fff;padding:22px;display:flex;flex-direction:column;gap:18px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:48px;height:48px;border-radius:10px;background:var(--glass);display:flex;align-items:center;justify-content:center;color:var(--primary);font-weight:700}
+    .brand h2{margin:0;font-size:16px}
+    .nav{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+    .nav a{color:#dff6ff;text-decoration:none;padding:10px;border-radius:10px;display:flex;align-items:center;gap:8px}
+    .nav a:hover{background:rgba(255,255,255,0.06)}
+    .nav a.active{background:rgba(255,255,255,0.12)}
+    .profile{margin-top:auto;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px}
+    .avatar{width:44px;height:44px;border-radius:999px;background:#fff;color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700}
+
+    /* MAIN */
+    .main{flex:1;padding:28px}
+    header.main-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+    .welcome{display:flex;flex-direction:column}
+    .welcome h1{margin:0;font-size:20px}
+    .welcome p{margin:4px 0 0;color:var(--muted)}
+    .actions{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+    .btn.secondary{background:#e6f7ff;color:var(--primary);border:1px solid rgba(0,0,0,0.06)}
+
+    /* GRID */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+    .col-4{grid-column:span 4}
+    .col-8{grid-column:span 8}
+    .col-6{grid-column:span 6}
+    .col-12{grid-column:span 12}
+
+    .kpi{display:flex;flex-direction:column;gap:8px}
+    .kpi strong{font-size:22px}
+    .kpi span{color:var(--muted)}
+
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #f1f5f8}
+    th{color:var(--muted);font-weight:600}
+
+    /* small */
+    .small{font-size:13px;color:var(--muted)}
+
+    /* form */
+    .form-row{display:flex;gap:8px}
+    input[type=number],select,input[type=text]{padding:8px;border-radius:8px;border:1px solid #e6eef3;flex:1}
+
+    /* responsive */
+    @media(max-width:900px){.sidebar{display:none}.wrap{flex-direction:column}.main{padding:14px}.grid{grid-template-columns:repeat(1,1fr)}.col-4,.col-6,.col-8{grid-column:span 1}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">UD</div>
+        <div>
+          <h2>Sistem MAUT</h2>
+          <div class="small">Bibit Udang Vaname</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#dashboard" class="active">🏠 Dashboard</a>
+        <a href="#penilaian">🧾 Penilaian</a>
+        <a href="#riwayat">📜 Riwayat</a>
+        <a href="#bantuan">❓ Bantuan</a>
+      </nav>
+
+      <div class="profile">
+        <div class="avatar">M</div>
+        <div>
+          <div style="font-weight:700">Mustafa Kamal</div>
+          <div class="small">Petambak • Member</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="main-head">
+        <div class="welcome">
+          <h1>Halo, Mustafa 👋</h1>
+          <p class="small">Ringkasan singkat tentang kondisi tambak dan rekomendasi bibit.</p>
+        </div>
+        <div class="actions">
+          <button class="btn" id="btn-mulai">Mulai Penilaian</button>
+          <button class="btn secondary" id="btn-export">Ekspor CSV</button>
+        </div>
+      </header>
+
+      <section class="grid">
+        <div class="card col-4">
+          <div class="kpi">
+            <span class="small">Total Alternatif</span>
+            <strong id="kpi-alt">3</strong>
+          </div>
+        </div>
+
+        <div class="card col-4">
+          <div class="kpi">
+            <span class="small">Rata-rata Nilai</span>
+            <strong id="kpi-avg">72.4</strong>
+          </div>
+        </div>
+
+        <div class="card col-4">
+          <div class="kpi">
+            <span class="small">Rekomendasi Saat Ini</span>
+            <strong id="kpi-best">Alternatif 2</strong>
+          </div>
+        </div>
+
+        <div class="card col-8">
+          <h3 style="margin-top:0">Tabel Alternatif & Nilai</h3>
+          <table id="tbl-alternatif">
+            <thead>
+              <tr><th>Alternatif</th><th>Warna</th><th>Gerak</th><th>Bentuk</th><th>Usus</th><th>Ekor</th><th>Mata</th><th>Total</th></tr>
+            </thead>
+            <tbody>
+              <!-- rows injected by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card col-4">
+          <h3 style="margin-top:0">Form Penilaian Cepat</h3>
+          <div class="small">Masukkan nilai (1-100) untuk 3 alternatif contoh. Kemudian klik Hitung.</div>
+          <div style="margin-top:10px">
+            <label class="small">Alternatif (nama)</label>
+            <input id="alt-name" type="text" placeholder="Alternatif 1">
+            <label class="small">Bobot (contoh: 0.2,0.15,... total 1)</label>
+            <input id="alt-weights" type="text" placeholder="0.2,0.15,0.15,0.2,0.15,0.15">
+
+            <div style="margin-top:8px" class="form-row">
+              <input id="v-warna" type="number" placeholder="Warna">
+              <input id="v-gerak" type="number" placeholder="Gerak">
+            </div>
+            <div style="margin-top:8px" class="form-row">
+              <input id="v-bentuk" type="number" placeholder="Bentuk">
+              <input id="v-usus" type="number" placeholder="Usus">
+            </div>
+            <div style="margin-top:8px" class="form-row">
+              <input id="v-ekor" type="number" placeholder="Ekor">
+              <input id="v-mata" type="number" placeholder="Mata">
+            </div>
+            <button class="btn" style="width:100%;margin-top:10px" id="btn-hitung">Hitung</button>
+          </div>
+        </div>
+
+        <div class="card col-12" id="riwayat">
+          <h3 style="margin-top:0">Riwayat Penilaian</h3>
+          <table id="tbl-riwayat">
+            <thead><tr><th>Tanggal</th><th>Alternatif</th><th>Nilai Total</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // contoh data awal
+    const alternatif = [
+      {name:'Alternatif 1', vals:[70,75,68,72,74,70]},
+      {name:'Alternatif 2', vals:[80,78,81,82,79,76]},
+      {name:'Alternatif 3', vals:[60,62,59,65,61,63]}
+    ];
+
+    // bobot default
+    const weights = [0.2,0.15,0.15,0.2,0.15,0.15];
+
+    function calcTotal(vals, w=weights){
+      let total=0; for(let i=0;i<vals.length;i++){ total += (Number(vals[i])||0) * (Number(w[i])||0); }
+      return total;
+    }
+
+    function renderTable(){
+      const tbody = document.querySelector('#tbl-alternatif tbody'); tbody.innerHTML='';
+      const riwayatBody = document.querySelector('#tbl-riwayat tbody'); riwayatBody.innerHTML='';
+
+      let best=null, sum=0;
+      alternatif.forEach((a,idx)=>{
+        const total = calcTotal(a.vals);
+        sum += total;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${a.name}</td><td>${a.vals[0]}</td><td>${a.vals[1]}</td><td>${a.vals[2]}</td><td>${a.vals[3]}</td><td>${a.vals[4]}</td><td>${a.vals[5]}</td><td><strong>${total.toFixed(2)}</strong></td>`;
+        tbody.appendChild(tr);
+        if(!best || total>best.score) best={index:idx,score:total};
+
+        // riwayat contoh
+        const tr2 = document.createElement('tr');
+        const date = new Date();
+        tr2.innerHTML = `<td>${date.toLocaleString()}</td><td>${a.name}</td><td>${total.toFixed(2)}</td>`;
+        riwayatBody.appendChild(tr2);
+      });
+
+      document.getElementById('kpi-alt').innerText = alternatif.length;
+      document.getElementById('kpi-avg').innerText = (sum/alternatif.length).toFixed(2);
+      document.getElementById('kpi-best').innerText = best? alternatif[best.index].name : '-';
+    }
+
+    // inisialisasi
+    renderTable();
+
+    // tombol mulai -> scroll ke form
+    document.getElementById('btn-mulai').addEventListener('click', ()=>{
+      window.location.hash = '#penilaian';
+      const el = document.querySelector('.card.col-4');
+      if(el) el.scrollIntoView({behavior:'smooth'});
+    });
+
+    // tombol hitung dari form
+    document.getElementById('btn-hitung').addEventListener('click', ()=>{
+      const name = document.getElementById('alt-name').value || `Alternatif ${alternatif.length+1}`;
+      const wText = document.getElementById('alt-weights').value.trim();
+      const w = wText? wText.split(',').map(x=>parseFloat(x.trim())) : weights;
+
+      const vals = [
+        Number(document.getElementById('v-warna').value)||0,
+        Number(document.getElementById('v-gerak').value)||0,
+        Number(document.getElementById('v-bentuk').value)||0,
+        Number(document.getElementById('v-usus').value)||0,
+        Number(document.getElementById('v-ekor').value)||0,
+        Number(document.getElementById('v-mata').value)||0,
+      ];
+
+      const total = calcTotal(vals, w);
+      // tambahkan ke data
+      alternatif.push({name, vals});
+      // simpan riwayat sederhana di localStorage
+      const hist = JSON.parse(localStorage.getItem('riwayat-maut')||'[]');
+      hist.unshift({date:new Date().toISOString(), name, total: total.toFixed(2)});
+      localStorage.setItem('riwayat-maut', JSON.stringify(hist.slice(0,50)));
+
+      renderTable();
+      alert(`Nilai total ${name}: ${total.toFixed(2)}`);
+    });
+
+    // export CSV sederhana
+    document.getElementById('btn-export').addEventListener('click', ()=>{
+      let csv = 'Alternatif,Warna,Gerak,Bentuk,Usus,Ekor,Mata,Total\n';
+      alternatif.forEach(a=>{
+        const tot = calcTotal(a.vals).toFixed(2);
+        csv += `${a.name},${a.vals.join(',')},${tot}\n`;
+      });
+      const blob = new Blob([csv],{type:'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'hasil_maut.csv'; a.click(); URL.revokeObjectURL(url);
+    });
+
+    // muat riwayat dari localStorage
+    (function loadHistory(){
+      const hist = JSON.parse(localStorage.getItem('riwayat-maut')||'[]');
+      const tbody = document.querySelector('#tbl-riwayat tbody');
+      hist.forEach(h=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${new Date(h.date).toLocaleString()}</td><td>${h.name}</td><td>${h.total}</td>`;
+        tbody.appendChild(tr);
+      });
+    })();
+  </script>
+</body>
+</html>
