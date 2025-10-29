@@ -3,52 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Petambak - SPK Bibit Udang Vaname</title>
+  <title>Login Petambak</title>
   <style>
     body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(to bottom right, #0077b6, #00b4d8);
-      color: #fff;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #4ac6ff, #0077b6);
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
       margin: 0;
     }
 
-    .container {
-      background: #fff;
-      color: #333;
+    .login-box {
+      background: white;
       padding: 30px;
-      border-radius: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       width: 350px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
       text-align: center;
     }
 
     h2 {
-      margin-bottom: 20px;
       color: #0077b6;
+      margin-bottom: 25px;
     }
 
     input {
-      width: 90%;
+      width: 100%;
       padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
+      margin: 8px 0;
       border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
     }
 
     button {
-      width: 95%;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
       background-color: #0077b6;
-      color: #fff;
-      font-size: 16px;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 8px;
       cursor: pointer;
-      transition: 0.3s;
+      font-size: 16px;
+      margin-top: 10px;
     }
 
     button:hover {
@@ -56,100 +55,70 @@
     }
 
     .link {
-      display: block;
-      margin-top: 10px;
-      color: #0077b6;
-      cursor: pointer;
-      text-decoration: underline;
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
     }
 
-    .hidden {
-      display: none;
+    .link a {
+      color: #0077b6;
+      text-decoration: none;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-
-  <div class="container" id="login-container">
+  <div class="login-box">
     <h2>Login Petambak</h2>
-    <input type="email" id="loginEmail" placeholder="Email" required>
-    <input type="password" id="loginPassword" placeholder="Kata Sandi" required>
+    <input type="text" id="username" placeholder="Nama pengguna">
+    <input type="password" id="password" placeholder="Kata sandi">
     <button onclick="login()">Masuk</button>
-    <span class="link" onclick="showForgotPassword()">Lupa Password?</span>
-    <span class="link" onclick="showRegister()">Daftar Baru</span>
-  </div>
 
-  <div class="container hidden" id="register-container">
-    <h2>Daftar Pengguna Baru</h2>
-    <input type="text" id="regName" placeholder="Nama Lengkap" required>
-    <input type="email" id="regEmail" placeholder="Email" required>
-    <input type="password" id="regPassword" placeholder="Kata Sandi" required>
-    <button onclick="register()">Daftar</button>
-    <span class="link" onclick="showLogin()">Sudah punya akun? Masuk</span>
-  </div>
-
-  <div class="container hidden" id="forgot-container">
-    <h2>Lupa Password</h2>
-    <input type="email" id="forgotEmail" placeholder="Masukkan Email Terdaftar" required>
-    <button onclick="resetPassword()">Kirim Link Reset</button>
-    <span class="link" onclick="showLogin()">Kembali ke Login</span>
+    <div class="link">
+      <a href="#" onclick="lupaPassword()">Lupa Password?</a>
+      <a href="#" onclick="daftarAkun()">Daftar Akun Baru</a>
+    </div>
   </div>
 
   <script>
-    function showRegister() {
-      document.getElementById('login-container').classList.add('hidden');
-      document.getElementById('register-container').classList.remove('hidden');
-    }
-
-    function showLogin() {
-      document.getElementById('login-container').classList.remove('hidden');
-      document.getElementById('register-container').classList.add('hidden');
-      document.getElementById('forgot-container').classList.add('hidden');
-    }
-
-    function showForgotPassword() {
-      document.getElementById('login-container').classList.add('hidden');
-      document.getElementById('forgot-container').classList.remove('hidden');
-    }
-
-    function register() {
-      const email = document.getElementById('regEmail').value;
-      const password = document.getElementById('regPassword').value;
-      const name = document.getElementById('regName').value;
-
-      if (email && password && name) {
-        localStorage.setItem('userEmail', email);
-        localStorage.setItem('userPassword', password);
-        alert("Pendaftaran berhasil! Silakan login.");
-        showLogin();
-      } else {
-        alert("Isi semua data terlebih dahulu!");
-      }
-    }
+    // Daftar akun sementara (bisa disimpan di localStorage atau database nanti)
+    const akunPetambak = [
+      { username: "petambak1", password: "12345" },
+      { username: "petambak2", password: "67890" }
+    ];
 
     function login() {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      const savedEmail = localStorage.getItem('userEmail');
-      const savedPassword = localStorage.getItem('userPassword');
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
 
-      if (email === savedEmail && password === savedPassword) {
-        alert("Login berhasil! Selamat datang petambak.");
-        window.location.href = "dashboard.html"; // diarahkan ke dashboard
+      const akun = akunPetambak.find(a => a.username === user && a.password === pass);
+
+      if (akun) {
+        alert("Login berhasil! Selamat datang, " + user);
+        window.location.href = "dashboard.html"; // arahkan ke dashboard
       } else {
-        alert("Email atau kata sandi salah!");
+        alert("Username atau password salah!");
       }
     }
 
-    function resetPassword() {
-      const email = document.getElementById('forgotEmail').value;
-      const savedEmail = localStorage.getItem('userEmail');
+    function lupaPassword() {
+      const email = prompt("Masukkan alamat email Anda untuk reset password:");
+      if (email) {
+        alert("Link reset password telah dikirim ke " + email);
+      }
+    }
 
-      if (email === savedEmail) {
-        alert("Link reset password telah dikirim ke email: " + email);
-        showLogin();
-      } else {
-        alert("Email tidak ditemukan!");
+    function daftarAkun() {
+      const newUser = prompt("Masukkan username baru:");
+      const newPass = prompt("Masukkan password baru:");
+
+      if (newUser && newPass) {
+        akunPetambak.push({ username: newUser, password: newPass });
+        alert("Akun berhasil dibuat! Silakan login dengan username: " + newUser);
       }
     }
   </script>
